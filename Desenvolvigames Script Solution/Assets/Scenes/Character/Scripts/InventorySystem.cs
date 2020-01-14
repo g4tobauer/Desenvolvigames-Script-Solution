@@ -55,6 +55,18 @@ public class InventorySystem : MonoBehaviour
 
     private void StoreHealth(Health health)
     {
+        var overHealth = m_CharacterControllerScript.StatsSystem.AddHealth(health.AmountHealth);
+
+        overHealth += StoredHealth;
+        if (overHealth < 50)
+            StoredHealth = overHealth;
+        else
+            StoredHealth = 50;
+
         Destroy(health.gameObject);
     }
+
+    #region Properties
+    public int StoredHealth { get; private set; }
+    #endregion
 }

@@ -9,6 +9,7 @@ using UnityEngine;
 //Custom Scripts
 [RequireComponent(typeof(DashSystem))]
 [RequireComponent(typeof(InputSystem))]
+[RequireComponent(typeof(StatsSystem))]
 [RequireComponent(typeof(Instanciator))]
 [RequireComponent(typeof(WeaponSystem))]
 [RequireComponent(typeof(PickupSystem))]
@@ -35,6 +36,7 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
 
         DashSystem = GetComponent<DashSystem>();
         InputSystem = GetComponent<InputSystem>();
+        StatsSystem = GetComponent<StatsSystem>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
         Instanciator = GetComponent<Instanciator>();
         WeaponSystem = GetComponent<WeaponSystem>();
@@ -99,7 +101,7 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
         Debug.Log(WithControl);
     }
     #endregion
-
+    
     #region Properties
     public bool IsFacingRight { get; private set; }
     //Propriedade de verificação se o character esta virado para direita
@@ -107,6 +109,8 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
     //Propriedade de acesso ao script DashSystem
     public InputSystem InputSystem { get; private set; }
     //Propriedade de acesso ao script InputSystem
+    public StatsSystem StatsSystem { get; private set; }
+    //Propriedade de acesso ao script StatsSystem
     public Rigidbody2D Rigidbody2D { get; private set; }
     //Propriedade de acesso ao componente Rigidbody2D
     public Instanciator Instanciator { get; private set; }

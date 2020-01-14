@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class Health : PickupableObject
 {
-    public Constants.Pickupable.Amount.Size m_AmountSize;
+    [SerializeField]
+    Constants.Pickupable.Amount.Size m_AmountSize;
 
     // Start is called before the first frame update
     public override void Start()
@@ -15,9 +16,20 @@ public class Health : PickupableObject
         PickupableType = Constants.Pickupable.PickupableType.Health;
     }
 
-    // Update is called once per frame
-    void Update()
+    public int AmountHealth
     {
-        
+        get
+        {
+            switch(m_AmountSize)
+            {
+                case Constants.Pickupable.Amount.Size.Small:
+                    return 30;
+                case Constants.Pickupable.Amount.Size.Medium:
+                    return 60;
+                case Constants.Pickupable.Amount.Size.Large:
+                    return 100;
+            }
+            return 0;
+        }
     }
 }
