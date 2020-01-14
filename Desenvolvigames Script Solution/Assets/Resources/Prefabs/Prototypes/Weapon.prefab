@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1136882090231940539}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SpawnBulletPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,8 @@ GameObject:
   - component: {fileID: 2984001602583115597}
   - component: {fileID: 3367559380069882236}
   - component: {fileID: 6384293516966366873}
-  m_Layer: 0
+  - component: {fileID: -185530269236640383}
+  m_Layer: 11
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,8 +77,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4009327dc449f874fb486441b7ce34ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Chinelo: {fileID: 5533989144554091844, guid: 7d3a66e9dcbac134c9a60c566111cdac, type: 3}
-  Bullet: {fileID: -742774999092135834, guid: e688f0b4b1e422e45be8b52ecdd87950, type: 3}
 --- !u!114 &6384293516966366873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,8 +89,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b8eb74f2546d84448f9bc8426d3d3f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SpriteRenderer: {fileID: 5513640563900412561}
   m_ShootingMode: 2
-  m_SpawnBulletPoint: {fileID: 1136882090231940539}
+  m_SpawnProjectilePoint: {fileID: 1136882090231940539}
+--- !u!61 &-185530269236640383
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6985089060990225334}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.28, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.93, y: 0.62}
+  m_EdgeRadius: 0
 --- !u!1 &8355916486438825212
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,7 +128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 475518168135302476}
   - component: {fileID: 5513640563900412561}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WeaponRender
   m_TagString: Untagged
   m_Icon: {fileID: 0}

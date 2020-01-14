@@ -11,19 +11,45 @@ namespace Assets.Scenes.Miscelanious
     {
         public static class Layers
         {
-            public static string Ground = "Ground";
-            public static string Chinelo = "Chinelo";
-            public static string Targetable = "Targetable";
-            public static string Pickupable = "Pickupable";
+            public static readonly string Ground = "Ground";
+            public static readonly string Chinelo = "Chinelo";
+            public static readonly string Targetable = "Targetable";
+            public static readonly string Pickupable = "Pickupable";
         }
 
         public static class InputSystem
         {
             public static class Axis
             {
-                public static string Horizontal = "Horizontal";
-                public static string Vertical = "Vertical";
+                public static readonly string Horizontal = "Horizontal";
+                public static readonly string Vertical = "Vertical";
             }
+        }
+
+        public static class Pickupable
+        {
+            public enum PickupableType
+            {
+                FireWeapon,
+                Health,
+                Soul
+            }
+
+            public static class Amount
+            {
+                public enum Size
+                {
+                    Small,
+                    Medium,
+                    Large
+                }
+            }
+        }
+
+        public static class Resources
+        {
+            public static readonly string ProjectilePath = "Prefabs/Prototypes/Projectile";
+            public static readonly string ChineloPath = "Prefabs/Prototypes/Chinelo";
         }
     }
 }

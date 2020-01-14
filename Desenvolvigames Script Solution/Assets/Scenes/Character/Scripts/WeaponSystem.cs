@@ -5,37 +5,54 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterControllerScript))]
 public class WeaponSystem : MonoBehaviour
 {
-    public FireWeapon m_FireWeapon;
     private CharacterControllerScript m_CharacterControllerScript;
 
+    #region Unity Methods
     // Start is called before the first frame update
     void Start()
     {
         m_CharacterControllerScript = GetComponent<CharacterControllerScript>();
     }
-
     // Update is called once per frame
     void Update()
     {
         Inputs();
     }
-
+    #endregion
+    
+    #region Methods
     private void Inputs()
     {
-        m_CharacterControllerScript.InputSystem.LookAtMousePosition(m_FireWeapon.transform);
-        if (m_FireWeapon.m_ShootingMode == FireWeapon.ShootingMode.SEMIAUTOMATIC)
+        if (CurrentFireWeapon != null)
         {
-            if (m_CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.Mouse1))
+            m_CharacterControllerScript.InputSystem.LookAtMousePosition(CurrentFireWeapon.transform);
+            if (CurrentFireWeapon.m_ShootingMode == FireWeapon.ShootingMode.SEMIAUTOMATIC)
             {
-                m_FireWeapon.Shoot();
+                if (m_CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.Mouse1))
+                {
+                    CurrentFireWeapon.Shoot();
+                }
             }
-        }
-        if (m_FireWeapon.m_ShootingMode == FireWeapon.ShootingMode.AUTOMATIC)
-        {
-            if (m_CharacterControllerScript.InputSystem.GetKey(KeyCode.Mouse1))
+            if (CurrentFireWeapon.m_ShootingMode == FireWeapon.ShootingMode.AUTOMATIC)
             {
-                m_FireWeapon.Shoot();
+                if (m_CharacterControllerScript.InputSystem.GetKey(KeyCode.Mouse1))
+                {
+                    CurrentFireWeapon.Shoot();
+                }
             }
         }
     }
+    public void SetCurrentFireWeapon(FireWeapon fireWeapon)
+    {
+        if (CurrentFireWeapon != null)
+            CurrentFireWeapon.gameObject.SetActive(false);
+        CurrentFireWeapon = fireWeapon;
+        if (CurrentFireWeapon != null)
+            CurrentFireWeapon.gameObject.SetActive(true);
+    }
+    #endregion
+    
+    #region Properties
+    public FireWeapon CurrentFireWeapon { get; private set; }
+    #endregion
 }

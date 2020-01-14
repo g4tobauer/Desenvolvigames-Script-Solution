@@ -1,10 +1,14 @@
-﻿using System.Collections;
+﻿using Assets.Scenes.Miscelanious;
+using Assets.Scenes.Scripts.Miscelanious.Interfaces;
+using Assets.Scenes.Scripts.Objects;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Instanciator))]
 
-public class FireWeapon : MonoBehaviour
+public class FireWeapon : PickupableObject
 {
     public enum ShootingMode
     {
@@ -13,9 +17,11 @@ public class FireWeapon : MonoBehaviour
         AUTOMATIC
     }
 
+    //private struct Projectiles
+
     #region Fields
     public ShootingMode m_ShootingMode;
-    public Transform m_SpawnBulletPoint;
+    public Transform m_SpawnProjectilePoint;
 
     public readonly float SEMIAUTOMATICTIMESHOOT = .1F;
     public readonly float AUTOMATICTIMESHOOT = .08F;
@@ -27,9 +33,12 @@ public class FireWeapon : MonoBehaviour
 
     #region Unity Methods
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
+        base.Start();
         m_Instanciator = GetComponent<Instanciator>();
+        PickupableType = Constants.Pickupable.PickupableType.FireWeapon;
+        gameObject.layer = LayerMask.NameToLayer(Constants.Layers.Pickupable);
     }
     // Update is called once per frame
     void Update()
@@ -70,7 +79,7 @@ public class FireWeapon : MonoBehaviour
     {
         m_IsShooting = true;
         m_ShootTimeLapse = GetShootTime();
-        m_Instanciator.InstantiateBullet(m_SpawnBulletPoint);
+        m_Instanciator.InstantiateProjectile(m_SpawnProjectilePoint);
     }
     private void StopShoot()
     {
@@ -89,6 +98,6 @@ public class FireWeapon : MonoBehaviour
             //Atira na direção IsFacingRight
             StartShoot();
         }
-    }
+    }    
     #endregion
 }

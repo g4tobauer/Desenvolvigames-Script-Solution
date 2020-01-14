@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Bullet : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
     private Rigidbody2D m_rigidbody2D;
 
