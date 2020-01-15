@@ -98,7 +98,8 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
     }
     private void Debugs()
     {
-        Debug.Log(WithControl);
+        Debug.Log("Stats Health - " + StatsSystem.Health);
+        Debug.Log("Stored Health - " + InventorySystem.StoredHealth);
     }
     #endregion
     

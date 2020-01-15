@@ -25,7 +25,11 @@ public class WeaponSystem : MonoBehaviour
     {
         if (CurrentFireWeapon != null)
         {
-            m_CharacterControllerScript.InputSystem.LookAtMousePosition(CurrentFireWeapon.transform);
+            if(Mathf.Abs(m_CharacterControllerScript.InputSystem.LookAtMousePosition(CurrentFireWeapon.transform)) > 90)
+            {
+                CurrentFireWeapon.transform.Rotate(180, 0, 0);
+            }
+
             if (CurrentFireWeapon.m_ShootingMode == FireWeapon.ShootingMode.SEMIAUTOMATIC)
             {
                 if (m_CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.Mouse1))

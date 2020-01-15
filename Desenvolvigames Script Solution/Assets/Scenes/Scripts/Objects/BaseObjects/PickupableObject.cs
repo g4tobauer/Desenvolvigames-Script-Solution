@@ -9,12 +9,17 @@ namespace Assets.Scenes.Scripts.Objects
 {
     public class PickupableObject : MonoBehaviour, IPickupable
     {
-        public SpriteRenderer m_SpriteRenderer;
+        [SerializeField]
+        SpriteRenderer m_SpriteRenderer;
 
         public virtual void Start()
         {
             CanBePicked = true;
         }
+
+        #region Properties
+        public SpriteRenderer SpriteRenderer { get { return m_SpriteRenderer; } }
+        #endregion
 
         #region IPickupable
         public bool CanBePicked { get; private set; }

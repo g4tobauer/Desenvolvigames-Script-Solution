@@ -26,13 +26,22 @@ namespace Assets.Scenes.Miscelanious
             }
         }
 
+        public static class Projectile
+        {
+            public enum ProjectileType
+            {
+                Iron
+            }
+        }
+
         public static class Pickupable
         {
             public enum PickupableType
             {
                 FireWeapon,
                 Health,
-                Soul
+                Soul,
+                Ammo
             }
 
             public static class Amount
@@ -50,6 +59,8 @@ namespace Assets.Scenes.Miscelanious
         {
             public static readonly string ProjectilePath = "Prefabs/Prototypes/Projectile";
             public static readonly string ChineloPath = "Prefabs/Prototypes/Chinelo";
+            //public static readonly string HealthPath = "Prefabs/Prototypes/Health";
+            //public static readonly string SoulPath = "Prefabs/Prototypes/Soul";
         }
     }
 }

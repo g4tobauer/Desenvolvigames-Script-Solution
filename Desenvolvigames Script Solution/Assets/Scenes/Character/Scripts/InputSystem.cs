@@ -24,10 +24,11 @@ public class InputSystem : MonoBehaviour
         return Input.GetAxis(axisName);
     }
 
-    public void LookAtMousePosition(Transform refTransform)
+    public float LookAtMousePosition(Transform refTransform)
     {
         Vector3 direction = Input.mousePosition - Camera.main.WorldToScreenPoint(refTransform.position);
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         refTransform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        return angle;
     }
 }

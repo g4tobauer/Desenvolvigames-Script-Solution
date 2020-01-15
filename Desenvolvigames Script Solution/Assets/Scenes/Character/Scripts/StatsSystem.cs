@@ -23,12 +23,15 @@ public class StatsSystem : MonoBehaviour
             if (health > 100)
             {
                 m_HealthAmount = 100;
-                return m_HealthAmount - health;
+                return health - m_HealthAmount;
             }
             else
+            {
                 m_HealthAmount = health;
+                return 0;
+            }
         }
-        return 0;
+        return health;
     }
 
     public int Health { get { return m_HealthAmount; } }

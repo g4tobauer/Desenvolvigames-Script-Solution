@@ -7,7 +7,7 @@ using UnityEngine;
 public class Health : PickupableObject
 {
     [SerializeField]
-    Constants.Pickupable.Amount.Size m_AmountSize;
+    Constants.Pickupable.Amount.Size m_AmountSize = Constants.Pickupable.Amount.Size.Small;
 
     // Start is called before the first frame update
     public override void Start()

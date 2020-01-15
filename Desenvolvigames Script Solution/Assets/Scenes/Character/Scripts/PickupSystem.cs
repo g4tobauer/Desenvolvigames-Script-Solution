@@ -44,6 +44,12 @@ public class PickupSystem : MonoBehaviour
             pickupable = health;
             return true;
         }
+        Ammo ammo;
+        if (game.TryGetComponent(out ammo))
+        {
+            pickupable = ammo;
+            return true;
+        }
         return false;
     }
 

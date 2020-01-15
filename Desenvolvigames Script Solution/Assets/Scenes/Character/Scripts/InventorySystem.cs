@@ -38,6 +38,9 @@ public class InventorySystem : MonoBehaviour
             case Constants.Pickupable.PickupableType.Health:
                 StoreHealth(pickupable.Pickup<Health>());
                 break;
+            case Constants.Pickupable.PickupableType.Ammo:
+                StoreAmmo(pickupable.Pickup<Ammo>());
+                break;
         }
     }
 
@@ -64,6 +67,11 @@ public class InventorySystem : MonoBehaviour
             StoredHealth = 50;
 
         Destroy(health.gameObject);
+    }
+
+    private void StoreAmmo(Ammo ammo)
+    {
+        Destroy(ammo.gameObject);
     }
 
     #region Properties
