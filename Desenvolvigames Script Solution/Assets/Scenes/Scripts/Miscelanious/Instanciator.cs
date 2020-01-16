@@ -6,20 +6,30 @@ using UnityEngine;
 
 public class Instanciator : MonoBehaviour
 {
-    private static Projectile m_Projectile;
+    private static Projectile m_IronProjectile;
     private static Chinelo m_Chinelo;
 
     void Start()
     {
-        LoadProjectile();
+        LoadProjectiles();
         LoadChinelo();
     }
 
-    private void LoadProjectile()
+    private void LoadProjectiles()
     {
-        if (m_Projectile == null)
+        if (m_IronProjectile == null)
         {
-            m_Projectile = Resources.Load<GameObject>(Constants.Resources.ProjectilePath).GetComponent<Projectile>();
+            m_IronProjectile = Resources.Load<GameObject>(Constants.Resources.IronProjectilePath).GetComponent<Projectile>();
+        }
+    }
+    public Projectile InstantiateProjectile(Transform transform, Constants.Projectile.ProjectileType projectileType)
+    {
+        switch (projectileType)
+        {
+            case Constants.Projectile.ProjectileType.Iron:
+                return Instantiate(m_IronProjectile, transform.position, transform.rotation);
+            default:
+                return null;
         }
     }
 
@@ -30,14 +40,8 @@ public class Instanciator : MonoBehaviour
             m_Chinelo = Resources.Load<GameObject>(Constants.Resources.ChineloPath).GetComponent<Chinelo>();
         }
     }
-
     public Chinelo InstantiateChinelo(Transform transform)
     {
         return Instantiate(m_Chinelo, transform.position, transform.rotation);
-    }
-
-    public Projectile InstantiateProjectile(Transform transform)
-    {
-        return Instantiate(m_Projectile, transform.position, transform.rotation);
     }
 }

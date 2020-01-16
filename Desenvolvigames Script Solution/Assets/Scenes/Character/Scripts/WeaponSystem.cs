@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scenes.Miscelanious;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,6 +45,10 @@ public class WeaponSystem : MonoBehaviour
                     CurrentFireWeapon.Shoot();
                 }
             }
+            if (m_CharacterControllerScript.InputSystem.GetKey(KeyCode.R))
+            {
+                m_CharacterControllerScript.InventorySystem.ReloadWeapon(CurrentFireWeapon);
+            }
         }
     }
     public void SetCurrentFireWeapon(FireWeapon fireWeapon)
@@ -53,9 +58,9 @@ public class WeaponSystem : MonoBehaviour
         CurrentFireWeapon = fireWeapon;
         if (CurrentFireWeapon != null)
             CurrentFireWeapon.gameObject.SetActive(true);
-    }
+    }   
     #endregion
-    
+
     #region Properties
     public FireWeapon CurrentFireWeapon { get; private set; }
     #endregion

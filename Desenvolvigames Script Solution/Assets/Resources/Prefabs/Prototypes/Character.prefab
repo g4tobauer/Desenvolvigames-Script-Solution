@@ -70,6 +70,7 @@ GameObject:
   - component: {fileID: 1618844581}
   - component: {fileID: 783043027}
   - component: {fileID: 5417546066962653926}
+  - component: {fileID: 1069334965}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -274,8 +275,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4009327dc449f874fb486441b7ce34ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Chinelo: {fileID: 5533989144554091844, guid: 7d3a66e9dcbac134c9a60c566111cdac, type: 3}
-  Bullet: {fileID: -742774999092135834, guid: e688f0b4b1e422e45be8b52ecdd87950, type: 3}
 --- !u!114 &778677025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,5 +321,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3cc90755046768440baa8cd9bcf2ebb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1069334965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997702539000609880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61db3c1b7c627c042898321318750978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

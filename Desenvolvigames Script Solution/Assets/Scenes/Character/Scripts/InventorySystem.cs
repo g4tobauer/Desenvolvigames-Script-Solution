@@ -8,7 +8,8 @@ using UnityEngine;
 
 public class InventorySystem : MonoBehaviour
 {
-    private List<FireWeapon> FireWeaponList = new List<FireWeapon>();
+    public Dictionary<Constants.Projectile.ProjectileType, int> ProjectilesBag = new Dictionary<Constants.Projectile.ProjectileType, int>();
+    private List<FireWeapon> FireWeaponBag = new List<FireWeapon>();
     private CharacterControllerScript m_CharacterControllerScript;
 
     // Start is called before the first frame update
@@ -16,18 +17,21 @@ public class InventorySystem : MonoBehaviour
     {
         m_CharacterControllerScript = GetComponent<CharacterControllerScript>();
     }
-
     private void Update()
     {
         if (m_CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.Alpha1))
         {
-            if(FireWeaponList.Count > 0)
-                m_CharacterControllerScript.WeaponSystem.SetCurrentFireWeapon(FireWeaponList[0]);
+            if(FireWeaponBag.Count > 0)
+                m_CharacterControllerScript.WeaponSystem.SetCurrentFireWeapon(FireWeaponBag[0]);
         }
         if (m_CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.Alpha2))
             m_CharacterControllerScript.WeaponSystem.SetCurrentFireWeapon(null);
     }
 
+    public void ReloadWeapon(FireWeapon fireWeapon)
+    {
+        fireWeapon.ReloadClip(ProjectilesBag);
+    }
     public void StorePickupItem(IPickupable pickupable)
     {
         switch(pickupable.PickupableType)
@@ -43,19 +47,17 @@ public class InventorySystem : MonoBehaviour
                 break;
         }
     }
-
     private void StoreFireWeapon(FireWeapon fireWeapon)
     {
-        if (!FireWeaponList.Contains(fireWeapon))
+        if (!FireWeaponBag.Contains(fireWeapon))
         {
             fireWeapon.transform.SetParent(m_CharacterControllerScript.transform);
             fireWeapon.transform.localRotation = Quaternion.identity;
             fireWeapon.transform.localPosition = Vector3.zero;
             fireWeapon.gameObject.SetActive(false);
-            FireWeaponList.Add(fireWeapon);
+            FireWeaponBag.Add(fireWeapon);
         }
     }
-
     private void StoreHealth(Health health)
     {
         var overHealth = m_CharacterControllerScript.StatsSystem.AddHealth(health.AmountHealth);
@@ -68,13 +70,25 @@ public class InventorySystem : MonoBehaviour
 
         Destroy(health.gameObject);
     }
-
     private void StoreAmmo(Ammo ammo)
     {
-        Destroy(ammo.gameObject);
+        if (!ProjectilesBag.ContainsKey(ammo.ProjectileType))
+            ProjectilesBag[ammo.ProjectileType] = 0;
+
+        var amount = ProjectilesBag[ammo.ProjectileType] + ammo.AmountAmmo;
+
+        if (amount <= 30)
+        {
+            ProjectilesBag[ammo.ProjectileType] = amount;
+            Destroy(ammo.gameObject);
+        }else
+        {
+            ammo.ResetPicked();
+        }
     }
 
     #region Properties
     public int StoredHealth { get; private set; }
+    public int StoredAmmo { get { return ProjectilesBag[m_CharacterControllerScript.WeaponSystem.CurrentFireWeapon.CurrentProjectileType]; } }
     #endregion
 }

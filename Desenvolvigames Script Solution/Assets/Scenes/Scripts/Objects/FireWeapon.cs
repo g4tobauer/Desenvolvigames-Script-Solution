@@ -10,6 +10,8 @@ using UnityEngine;
 
 public class FireWeapon : PickupableObject
 {
+    private readonly Dictionary<Constants.Projectile.ProjectileType, int> m_ProjectilesClips = new Dictionary<Constants.Projectile.ProjectileType, int>();
+
     public enum ShootingMode
     {
         RESET,
@@ -36,6 +38,7 @@ public class FireWeapon : PickupableObject
     public override void Start()
     {
         base.Start();
+        m_ProjectilesClips[CurrentProjectileType] = 0;
         m_Instanciator = GetComponent<Instanciator>();
         PickupableType = Constants.Pickupable.PickupableType.FireWeapon;
         gameObject.layer = LayerMask.NameToLayer(Constants.Layers.Pickupable);
@@ -79,18 +82,23 @@ public class FireWeapon : PickupableObject
     {
         m_IsShooting = true;
         m_ShootTimeLapse = GetShootTime();
-        m_Instanciator.InstantiateProjectile(m_SpawnProjectilePoint);
+
+        if (m_ProjectilesClips[CurrentProjectileType] > 0)
+        {
+            m_Instanciator.InstantiateProjectile(m_SpawnProjectilePoint, CurrentProjectileType);
+            m_ProjectilesClips[CurrentProjectileType] -= 1;
+        }
     }
     private void StopShoot()
     {
         m_ShootTimeLapse = 0;
         m_IsShooting = false;
     }
+
     public void ResetShoot()
     {
         StopShoot();
     }
-
     public void Shoot()
     {
         if (!m_IsShooting && (m_ShootTimeLapse == 0))
@@ -99,5 +107,29 @@ public class FireWeapon : PickupableObject
             StartShoot();
         }
     }    
+    public void ReloadClip(Dictionary<Constants.Projectile.ProjectileType, int> projectilesBag)
+    {
+        if (!m_ProjectilesClips.ContainsKey(CurrentProjectileType))
+            m_ProjectilesClips[CurrentProjectileType] = 0;
+
+        while(m_ProjectilesClips[CurrentProjectileType] < 7)
+        {
+            if (projectilesBag.ContainsKey(CurrentProjectileType))
+            {
+                if (projectilesBag[CurrentProjectileType] > 0)
+                {
+                    --projectilesBag[CurrentProjectileType];
+                    ++m_ProjectilesClips[CurrentProjectileType];
+                }
+                else break;
+            }
+            else break;
+        }
+    }
+    #endregion
+
+    #region Properties
+    public int CurrentProjectileAmmo { get { return m_ProjectilesClips[CurrentProjectileType]; } }
+    public Constants.Projectile.ProjectileType CurrentProjectileType { get; } = Constants.Projectile.ProjectileType.Iron;
     #endregion
 }

@@ -16,7 +16,6 @@ namespace Assets.Scenes.Miscelanious
             public static readonly string Targetable = "Targetable";
             public static readonly string Pickupable = "Pickupable";
         }
-
         public static class InputSystem
         {
             public static class Axis
@@ -25,7 +24,6 @@ namespace Assets.Scenes.Miscelanious
                 public static readonly string Vertical = "Vertical";
             }
         }
-
         public static class Projectile
         {
             public enum ProjectileType
@@ -33,7 +31,6 @@ namespace Assets.Scenes.Miscelanious
                 Iron
             }
         }
-
         public static class Pickupable
         {
             public enum PickupableType
@@ -54,10 +51,9 @@ namespace Assets.Scenes.Miscelanious
                 }
             }
         }
-
         public static class Resources
-        {
-            public static readonly string ProjectilePath = "Prefabs/Prototypes/Projectile";
+        {            
+            public static readonly string IronProjectilePath = "Prefabs/Prototypes/Weapon/Projectiles/IronProjectile";
             public static readonly string ChineloPath = "Prefabs/Prototypes/Chinelo";
             //public static readonly string HealthPath = "Prefabs/Prototypes/Health";
             //public static readonly string SoulPath = "Prefabs/Prototypes/Soul";

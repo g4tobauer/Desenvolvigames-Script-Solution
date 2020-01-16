@@ -7,6 +7,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     private Rigidbody2D m_rigidbody2D;
+    private Constants.Projectile.ProjectileType CurrentProjectileType = Constants.Projectile.ProjectileType.Iron;
 
     // Start is called before the first frame update
     void Start()

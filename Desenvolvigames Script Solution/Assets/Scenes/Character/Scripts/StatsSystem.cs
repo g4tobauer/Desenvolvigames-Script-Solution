@@ -15,23 +15,23 @@ public class StatsSystem : MonoBehaviour
         m_CharacterControllerScript = GetComponent<CharacterControllerScript>();
     }
 
-    public int AddHealth(int health)
+    public int AddHealth(int amountHealth)
     {
         if(m_HealthAmount < 100)
         {
-            health += m_HealthAmount;
-            if (health > 100)
+            amountHealth += m_HealthAmount;
+            if (amountHealth > 100)
             {
                 m_HealthAmount = 100;
-                return health - m_HealthAmount;
+                return amountHealth - m_HealthAmount;
             }
             else
             {
-                m_HealthAmount = health;
+                m_HealthAmount = amountHealth;
                 return 0;
             }
         }
-        return health;
+        return amountHealth;
     }
 
     public int Health { get { return m_HealthAmount; } }

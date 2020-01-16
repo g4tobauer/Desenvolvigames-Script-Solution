@@ -29,6 +29,10 @@ namespace Assets.Scenes.Scripts.Objects
             CanBePicked = false;
             return (T)Convert.ChangeType(this, typeof(T));
         }
+        public void ResetPicked()
+        {
+            CanBePicked = true;
+        }
         #endregion
     }
 }

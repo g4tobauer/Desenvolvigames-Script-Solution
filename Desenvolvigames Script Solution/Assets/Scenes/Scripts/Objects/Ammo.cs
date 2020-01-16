@@ -19,7 +19,7 @@ public class Ammo : PickupableObject
         PickupableType = Constants.Pickupable.PickupableType.Ammo;
     }
 
-    public int AmountHealth
+    public int AmountAmmo
     {
         get
         {
@@ -35,4 +35,6 @@ public class Ammo : PickupableObject
             return 0;
         }
     }
+
+    public Constants.Projectile.ProjectileType ProjectileType { get { return m_ProjectileType; } }
 }
