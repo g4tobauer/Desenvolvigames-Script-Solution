@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class StatsSystem : MonoBehaviour
 {
-    private int m_HealthAmount;
     private CharacterControllerScript m_CharacterControllerScript;
 
     // Start is called before the first frame update
@@ -15,24 +14,25 @@ public class StatsSystem : MonoBehaviour
         m_CharacterControllerScript = GetComponent<CharacterControllerScript>();
     }
 
+    //Soma a quantidade de vida com a vida atual, caso exceda o valor de 100 retorna o excedente, caso contrario retorna 0
     public int AddHealth(int amountHealth)
     {
-        if(m_HealthAmount < 100)
+        if(Health < 100)
         {
-            amountHealth += m_HealthAmount;
+            amountHealth += Health;
             if (amountHealth > 100)
             {
-                m_HealthAmount = 100;
-                return amountHealth - m_HealthAmount;
+                Health = 100;
+                return amountHealth - Health;
             }
             else
             {
-                m_HealthAmount = amountHealth;
+                Health = amountHealth;
                 return 0;
             }
         }
         return amountHealth;
     }
 
-    public int Health { get { return m_HealthAmount; } }
+    public int Health { get; private set;}
 }

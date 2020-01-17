@@ -23,7 +23,7 @@ namespace Assets.Scenes.Scripts.Objects
 
         #region IPickupable
         public bool CanBePicked { get; private set; }
-        public Constants.Pickupable.PickupableType PickupableType { get; protected set; }
+        public Constants.Enumerations.Pickupable.PickupableType PickupableType { get; protected set; }
         public T Pickup<T>() where T : IPickupable
         {
             CanBePicked = false;

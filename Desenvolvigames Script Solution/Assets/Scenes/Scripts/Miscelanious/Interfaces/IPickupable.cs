@@ -9,7 +9,7 @@ namespace Assets.Scenes.Scripts.Miscelanious.Interfaces
 {
     public interface IPickupable
     {
-        Constants.Pickupable.PickupableType PickupableType { get; }
+        Constants.Enumerations.Pickupable.PickupableType PickupableType { get; }
         void ResetPicked();
         T Pickup<T>() where T : IPickupable;
         bool CanBePicked { get; }

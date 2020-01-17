@@ -10,7 +10,6 @@ using UnityEngine;
 [RequireComponent(typeof(DashSystem))]
 [RequireComponent(typeof(InputSystem))]
 [RequireComponent(typeof(StatsSystem))]
-[RequireComponent(typeof(Instanciator))]
 [RequireComponent(typeof(WeaponSystem))]
 [RequireComponent(typeof(PickupSystem))]
 [RequireComponent(typeof(InventorySystem))]
@@ -38,7 +37,6 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
         InputSystem = GetComponent<InputSystem>();
         StatsSystem = GetComponent<StatsSystem>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
-        Instanciator = GetComponent<Instanciator>();
         WeaponSystem = GetComponent<WeaponSystem>();
         PickupSystem = GetComponent<PickupSystem>();
         InventorySystem = GetComponent<InventorySystem>();
@@ -114,8 +112,6 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
     //Propriedade de acesso ao script StatsSystem
     public Rigidbody2D Rigidbody2D { get; private set; }
     //Propriedade de acesso ao componente Rigidbody2D
-    public Instanciator Instanciator { get; private set; }
-    //Propriedade de acesso ao script Instanciator
     public WeaponSystem WeaponSystem { get; private set; }
     //Propriedade de acesso ao script WeaponSystem
     public PickupSystem PickupSystem { get; private set; }

@@ -1,4 +1,5 @@
 ﻿using Assets.Scenes.Character.Interfaces;
+using Assets.Scenes.Miscelanious;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +9,6 @@ using UnityEngine;
 public class DashSystem : MonoBehaviour, IControllable
 {
     #region Fields
-    private float DASHATTACK = 2;
-    private float DASHDODGE = 8;
-
     private float m_DashTime;
     private Vector2 m_DashVelocity;
     private CharacterControllerScript m_CharacterControllerScript;
@@ -31,6 +29,7 @@ public class DashSystem : MonoBehaviour, IControllable
     {
         if (WithControl)
         {
+            //Para fazer o dash precisamente, é necessário desabilitar a gravidade
             m_CharacterControllerScript.Rigidbody2D.gravityScale = 0;
             m_CharacterControllerScript.Rigidbody2D.velocity = m_DashVelocity * 2;
         }
@@ -38,6 +37,7 @@ public class DashSystem : MonoBehaviour, IControllable
     #endregion
 
     #region Methods
+    //Enquanto não passar o dashTime, continua aplicando a velocidade de dash até terminar o dashTime, devolvendo o controle para o CharacterControllerScript
     private void DashRules()
     {
         if (WithControl)
@@ -46,21 +46,25 @@ public class DashSystem : MonoBehaviour, IControllable
             if (m_DashTime <= 0)
             {
                 m_DashTime = 0;
+                //ao termino do dash, a gravidade é retornada
                 m_CharacterControllerScript.Rigidbody2D.gravityScale = 3;
                 m_CharacterControllerScript.TakeControl(this);
                 IsFinishedControl = true;
             }
         }
     }
+    //Aplica o Dash de ataque
     public void DashAttack(IControllable controllable)
     {
-        Dash(controllable, DASHATTACK);
+        Dash(controllable, Constants.DashSystem.DashAttack);
     }
+    //Aplica o Dash de esquiva
     public void DashDodge(IControllable controllable)
     {
-        Dash(controllable, DASHDODGE);
+        Dash(controllable, Constants.DashSystem.DashDodge);
     }
 
+    //Toma o Controle, adiciona a velocidade atual a velocidade de Dash, verifica qual o lado do dash e atribui a velocidade e o tempo do dash.
     private void Dash(IControllable controllable, float dashSpeed)
     {
         TakeControl(controllable);
@@ -72,7 +76,7 @@ public class DashSystem : MonoBehaviour, IControllable
                 dashVelocity.Set(dashSpeed, 0);
             else
                 dashVelocity.Set(-dashSpeed, 0);
-            m_DashTime = .1f;
+            m_DashTime = Constants.DashSystem.DashTime;
             m_DashVelocity = dashVelocity;
         }
     }

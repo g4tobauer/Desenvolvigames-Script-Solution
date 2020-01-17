@@ -80,7 +80,7 @@ public class ChineleeMechanicsSystem : MonoBehaviour, IControllable
     private void ThrowChinelo()
     {
         m_ActionMechanicsCurrent = ActionMechanics.NONE;
-        m_Chinelo = m_CharacterControllerScript.Instanciator.InstantiateChinelo(m_CharacterControllerScript.gameObject.transform);
+        //m_Chinelo = m_CharacterControllerScript.Instanciator.InstantiateChinelo(m_CharacterControllerScript.gameObject.transform);
     }
 
     private void JumpToChinelo()

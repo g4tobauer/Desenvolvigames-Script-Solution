@@ -8,10 +8,9 @@ using UnityEngine;
 
 public class InventorySystem : MonoBehaviour
 {
-    public Dictionary<Constants.Projectile.ProjectileType, int> ProjectilesBag = new Dictionary<Constants.Projectile.ProjectileType, int>();
-    private List<FireWeapon> FireWeaponBag = new List<FireWeapon>();
     private CharacterControllerScript m_CharacterControllerScript;
 
+    #region Unity Methods
     // Start is called before the first frame update
     void Start()
     {
@@ -27,26 +26,9 @@ public class InventorySystem : MonoBehaviour
         if (m_CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.Alpha2))
             m_CharacterControllerScript.WeaponSystem.SetCurrentFireWeapon(null);
     }
+    #endregion
 
-    public void ReloadWeapon(FireWeapon fireWeapon)
-    {
-        fireWeapon.ReloadClip(ProjectilesBag);
-    }
-    public void StorePickupItem(IPickupable pickupable)
-    {
-        switch(pickupable.PickupableType)
-        {
-            case Constants.Pickupable.PickupableType.FireWeapon:
-                StoreFireWeapon(pickupable.Pickup<FireWeapon>());
-                break;
-            case Constants.Pickupable.PickupableType.Health:
-                StoreHealth(pickupable.Pickup<Health>());
-                break;
-            case Constants.Pickupable.PickupableType.Ammo:
-                StoreAmmo(pickupable.Pickup<Ammo>());
-                break;
-        }
-    }
+    #region Methods
     private void StoreFireWeapon(FireWeapon fireWeapon)
     {
         if (!FireWeaponBag.Contains(fireWeapon))
@@ -56,6 +38,23 @@ public class InventorySystem : MonoBehaviour
             fireWeapon.transform.localPosition = Vector3.zero;
             fireWeapon.gameObject.SetActive(false);
             FireWeaponBag.Add(fireWeapon);
+        }
+    }
+    private void StoreAmmo(Ammo ammo)
+    {
+        if (!ProjectilesBag.ContainsKey(ammo.ProjectileType))
+            ProjectilesBag[ammo.ProjectileType] = 0;
+
+        var amount = ProjectilesBag[ammo.ProjectileType] + ammo.AmountAmmo;
+
+        if (amount <= 30)
+        {
+            ProjectilesBag[ammo.ProjectileType] = amount;
+            Destroy(ammo.gameObject);
+        }
+        else
+        {
+            ammo.ResetPicked();
         }
     }
     private void StoreHealth(Health health)
@@ -70,24 +69,32 @@ public class InventorySystem : MonoBehaviour
 
         Destroy(health.gameObject);
     }
-    private void StoreAmmo(Ammo ammo)
+
+    public void ReloadCurrentWeapon()
     {
-        if (!ProjectilesBag.ContainsKey(ammo.ProjectileType))
-            ProjectilesBag[ammo.ProjectileType] = 0;
-
-        var amount = ProjectilesBag[ammo.ProjectileType] + ammo.AmountAmmo;
-
-        if (amount <= 30)
+        m_CharacterControllerScript.WeaponSystem.CurrentFireWeapon.ReloadClip(ProjectilesBag);
+    }
+    public void StorePickupItem(IPickupable pickupable)
+    {
+        switch (pickupable.PickupableType)
         {
-            ProjectilesBag[ammo.ProjectileType] = amount;
-            Destroy(ammo.gameObject);
-        }else
-        {
-            ammo.ResetPicked();
+            case Constants.Enumerations.Pickupable.PickupableType.FireWeapon:
+                StoreFireWeapon(pickupable.Pickup<FireWeapon>());
+                break;
+            case Constants.Enumerations.Pickupable.PickupableType.Health:
+                StoreHealth(pickupable.Pickup<Health>());
+                break;
+            case Constants.Enumerations.Pickupable.PickupableType.Ammo:
+                StoreAmmo(pickupable.Pickup<Ammo>());
+                break;
         }
     }
+    #endregion
 
     #region Properties
+    private List<FireWeapon> FireWeaponBag { get; } = new List<FireWeapon>();
+    private Dictionary<Constants.Enumerations.Projectile.ProjectileType, int> ProjectilesBag { get; } = new Dictionary<Constants.Enumerations.Projectile.ProjectileType, int>();
+
     public int StoredHealth { get; private set; }
     public int StoredAmmo { get { return ProjectilesBag[m_CharacterControllerScript.WeaponSystem.CurrentFireWeapon.CurrentProjectileType]; } }
     #endregion

@@ -31,14 +31,14 @@ public class WeaponSystem : MonoBehaviour
                 CurrentFireWeapon.transform.Rotate(180, 0, 0);
             }
 
-            if (CurrentFireWeapon.m_ShootingMode == FireWeapon.ShootingMode.SEMIAUTOMATIC)
+            if (CurrentFireWeapon.m_ShootingMode == Constants.Enumerations.FireWeapon.ShootingMode.SEMIAUTOMATIC)
             {
                 if (m_CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.Mouse1))
                 {
                     CurrentFireWeapon.Shoot();
                 }
             }
-            if (CurrentFireWeapon.m_ShootingMode == FireWeapon.ShootingMode.AUTOMATIC)
+            if (CurrentFireWeapon.m_ShootingMode == Constants.Enumerations.FireWeapon.ShootingMode.AUTOMATIC)
             {
                 if (m_CharacterControllerScript.InputSystem.GetKey(KeyCode.Mouse1))
                 {
@@ -47,7 +47,7 @@ public class WeaponSystem : MonoBehaviour
             }
             if (m_CharacterControllerScript.InputSystem.GetKey(KeyCode.R))
             {
-                m_CharacterControllerScript.InventorySystem.ReloadWeapon(CurrentFireWeapon);
+                m_CharacterControllerScript.InventorySystem.ReloadCurrentWeapon();
             }
         }
     }

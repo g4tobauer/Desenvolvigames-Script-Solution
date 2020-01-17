@@ -7,16 +7,16 @@ using UnityEngine;
 public class Ammo : PickupableObject
 {
     [SerializeField]
-    Constants.Pickupable.Amount.Size m_AmountSize = Constants.Pickupable.Amount.Size.Small;
+    Constants.Enumerations.Pickupable.Amount.Size m_AmountSize = Constants.Enumerations.Pickupable.Amount.Size.Small;
 
     [SerializeField]
-    Constants.Projectile.ProjectileType m_ProjectileType = Constants.Projectile.ProjectileType.Iron;
+    Constants.Enumerations.Projectile.ProjectileType m_ProjectileType = Constants.Enumerations.Projectile.ProjectileType.Iron;
 
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
-        PickupableType = Constants.Pickupable.PickupableType.Ammo;
+        PickupableType = Constants.Enumerations.Pickupable.PickupableType.Ammo;
     }
 
     public int AmountAmmo
@@ -25,16 +25,16 @@ public class Ammo : PickupableObject
         {
             switch (m_AmountSize)
             {
-                case Constants.Pickupable.Amount.Size.Small:
+                case Constants.Enumerations.Pickupable.Amount.Size.Small:
                     return 5;
-                case Constants.Pickupable.Amount.Size.Medium:
+                case Constants.Enumerations.Pickupable.Amount.Size.Medium:
                     return 10;
-                case Constants.Pickupable.Amount.Size.Large:
+                case Constants.Enumerations.Pickupable.Amount.Size.Large:
                     return 15;
             }
             return 0;
         }
     }
 
-    public Constants.Projectile.ProjectileType ProjectileType { get { return m_ProjectileType; } }
+    public Constants.Enumerations.Projectile.ProjectileType ProjectileType { get { return m_ProjectileType; } }
 }

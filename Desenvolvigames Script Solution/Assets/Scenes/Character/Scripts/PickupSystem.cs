@@ -16,6 +16,7 @@ public class PickupSystem : MonoBehaviour
         m_CharacterControllerScript = GetComponent<CharacterControllerScript>();
     }
 
+    //Pega gameobjects do tipo IPickupable e com layer Pickupable
     void OnTriggerEnter2D(Collider2D col)
     {
         if ((LayerMask.NameToLayer(Constants.Layers.Pickupable) == col.gameObject.layer))
@@ -29,23 +30,21 @@ public class PickupSystem : MonoBehaviour
         }
     }
 
+    //Tenta converter um gameobject para um componete que implementa IPickupable
     private bool TryConvertGameObjectToPickupable(GameObject game, out IPickupable pickupable)
     {
         pickupable = null;
-        FireWeapon fireWeapon;
-        if (game.TryGetComponent(out fireWeapon))
+        if (game.TryGetComponent(out FireWeapon fireWeapon))
         {
             pickupable = fireWeapon;
             return true;
         }
-        Health health;
-        if (game.TryGetComponent(out health))
+        if (game.TryGetComponent(out Health health))
         {
             pickupable = health;
             return true;
         }
-        Ammo ammo;
-        if (game.TryGetComponent(out ammo))
+        if (game.TryGetComponent(out Ammo ammo))
         {
             pickupable = ammo;
             return true;
@@ -53,6 +52,7 @@ public class PickupSystem : MonoBehaviour
         return false;
     }
 
+    //Pega o objeto e envia para o Inventario para ser manipulado.
     private void Pickup(IPickupable pickupable)
     {
         m_CharacterControllerScript.InventorySystem.StorePickupItem(pickupable);
