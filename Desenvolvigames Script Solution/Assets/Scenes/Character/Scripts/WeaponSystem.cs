@@ -24,21 +24,21 @@ public class WeaponSystem : MonoBehaviour
     #region Methods
     private void Inputs()
     {
-        if (CurrentFireWeapon != null)
+        if (CurrentFireWeapon != null && CurrentFireWeapon.gameObject.activeInHierarchy)
         {
             if(Mathf.Abs(m_CharacterControllerScript.InputSystem.LookAtMousePosition(CurrentFireWeapon.transform)) > 90)
             {
                 CurrentFireWeapon.transform.Rotate(180, 0, 0);
             }
 
-            if (CurrentFireWeapon.m_ShootingMode == Constants.Enumerations.FireWeapon.ShootingMode.SEMIAUTOMATIC)
+            if (CurrentFireWeapon.FireWeaponObject.ShootingMode == Constants.Enumerations.FireWeapon.ShootingMode.SEMIAUTOMATIC)
             {
                 if (m_CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.Mouse1))
                 {
                     CurrentFireWeapon.Shoot();
                 }
             }
-            if (CurrentFireWeapon.m_ShootingMode == Constants.Enumerations.FireWeapon.ShootingMode.AUTOMATIC)
+            if (CurrentFireWeapon.FireWeaponObject.ShootingMode == Constants.Enumerations.FireWeapon.ShootingMode.AUTOMATIC)
             {
                 if (m_CharacterControllerScript.InputSystem.GetKey(KeyCode.Mouse1))
                 {
@@ -54,10 +54,10 @@ public class WeaponSystem : MonoBehaviour
     public void SetCurrentFireWeapon(FireWeapon fireWeapon)
     {
         if (CurrentFireWeapon != null)
-            CurrentFireWeapon.gameObject.SetActive(false);
+            CurrentFireWeapon.SpriteRenderer.enabled = false;
         CurrentFireWeapon = fireWeapon;
         if (CurrentFireWeapon != null)
-            CurrentFireWeapon.gameObject.SetActive(true);
+            CurrentFireWeapon.SpriteRenderer.enabled = true;
     }   
     #endregion
 

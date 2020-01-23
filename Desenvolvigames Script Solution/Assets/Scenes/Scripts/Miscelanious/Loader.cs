@@ -14,7 +14,6 @@ public sealed class Loader
     }
     private Loader()
     {
-        LoadSprites();
         LoadPrefabs();
     }
 
@@ -27,16 +26,4 @@ public sealed class Loader
         return LoadedPrefab[prefabName];
     }
 
-    private void LoadSprites()
-    {
-        LoadedSprite[Constants.Resources.Sprites.Health.HealthSmall] = Resources.Load<Sprite>(Constants.Resources.Sprites.Health.HealthPath + Constants.Resources.Sprites.Health.HealthSmall);
-        LoadedSprite[Constants.Resources.Sprites.Health.HealthMedium] = Resources.Load<Sprite>(Constants.Resources.Sprites.Health.HealthPath + Constants.Resources.Sprites.Health.HealthMedium);
-        LoadedSprite[Constants.Resources.Sprites.Health.HealthLarge] = Resources.Load<Sprite>(Constants.Resources.Sprites.Health.HealthPath + Constants.Resources.Sprites.Health.HealthLarge);
-
-        LoadedSprite[Constants.Resources.Sprites.Weapons.ShotGun] = Resources.Load<Sprite>(Constants.Resources.Sprites.Weapons.WeaponsPath + Constants.Resources.Sprites.Weapons.ShotGun);
-    }
-    public Sprite GetSprite(string SpriteName)
-    {
-        return LoadedSprite[SpriteName];
-    }
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 
 //Custom Scripts
+[RequireComponent(typeof(HudSystem))]
 [RequireComponent(typeof(DashSystem))]
 [RequireComponent(typeof(InputSystem))]
 [RequireComponent(typeof(StatsSystem))]
@@ -33,6 +34,7 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
         WithControl = true;
         //Inicia com o controle sobre o character
 
+        HudSystem = GetComponent<HudSystem>();
         DashSystem = GetComponent<DashSystem>();
         InputSystem = GetComponent<InputSystem>();
         StatsSystem = GetComponent<StatsSystem>();
@@ -44,12 +46,12 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
         //ChineleeMechanicsSystem = GetComponent<ChineleeMechanicsSystem>();
         //Instancias dos Scripts que serão todos acessados atravez da CharacterControllerScript
     }
-    private void Update()
+    void Update()
     {
         Inputs();
         //Debugs();
     }
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         if (WithControl)
         {
@@ -96,14 +98,15 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
     }
     private void Debugs()
     {
-        Debug.Log("Stats Health - " + StatsSystem.Health);
-        Debug.Log("Stored Health - " + InventorySystem.StoredHealth);
+        Debug.Log(StatsSystem.Health.ToString());
     }
     #endregion
     
     #region Properties
     public bool IsFacingRight { get; private set; }
     //Propriedade de verificação se o character esta virado para direita
+    public HudSystem HudSystem { get; private set; }
+    //Propriedade de acesso ao script HudSystem
     public DashSystem DashSystem { get; private set; }
     //Propriedade de acesso ao script DashSystem
     public InputSystem InputSystem { get; private set; }

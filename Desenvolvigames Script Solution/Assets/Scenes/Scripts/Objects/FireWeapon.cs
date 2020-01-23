@@ -9,17 +9,12 @@ using UnityEngine;
 public class FireWeapon : PickupableObject
 {
     private readonly Dictionary<Constants.Enumerations.Projectile.ProjectileType, int> m_ProjectilesClips = new Dictionary<Constants.Enumerations.Projectile.ProjectileType, int>();
-
-
-    //private struct Projectiles
-
+    
     #region Fields
-    public Constants.Enumerations.FireWeapon.ShootingMode m_ShootingMode;
+    public FireWeaponObject FireWeaponObject;
     public Transform m_SpawnProjectilePoint;
 
-    public readonly float SEMIAUTOMATICTIMESHOOT = .1F;
-    public readonly float AUTOMATICTIMESHOOT = .08F;
-
+    //m_IsShooting nem precisaria existir, mas acabei deixando eles
     private bool m_IsShooting;
     private float m_ShootTimeLapse;
     #endregion
@@ -29,8 +24,10 @@ public class FireWeapon : PickupableObject
     public override void Start()
     {
         base.Start();
+        CurrentProjectileType = FireWeaponObject.ProjectileTypeDefault;
         m_ProjectilesClips[CurrentProjectileType] = 0;
-        PickupableType = Constants.Enumerations.Pickupable.PickupableType.FireWeapon;
+        PickupableType = FireWeaponObject.PickupableType;
+        SpriteRenderer.sprite = FireWeaponObject.Sprite;
         gameObject.layer = LayerMask.NameToLayer(Constants.Layers.Pickupable);
     }
     // Update is called once per frame
@@ -58,27 +55,28 @@ public class FireWeapon : PickupableObject
     }
     private float GetShootTime()
     {
-        switch (m_ShootingMode)
+        switch (FireWeaponObject.ShootingMode)
         {
             case Constants.Enumerations.FireWeapon.ShootingMode.AUTOMATIC:
-                return AUTOMATICTIMESHOOT;
+                return FireWeaponObject.AutomaticTimeShoot;
             case Constants.Enumerations.FireWeapon.ShootingMode.SEMIAUTOMATIC:
-                return SEMIAUTOMATICTIMESHOOT;
+                return FireWeaponObject.SemiAutomaticTimeShoot;
             default:
                 return 0;
         }
     }
+    //Atira e iicia o contador para o intervalo entre tiros
     private void StartShoot()
     {
-        m_IsShooting = true;
-        m_ShootTimeLapse = GetShootTime();
-
         if (m_ProjectilesClips[CurrentProjectileType] > 0)
         {
+            m_IsShooting = true;
+            m_ShootTimeLapse = GetShootTime();
             Instanciator.Instancia.InstantiateProjectile(m_SpawnProjectilePoint, CurrentProjectileType);
             m_ProjectilesClips[CurrentProjectileType] -= 1;
         }
     }
+    //Para de atirar
     private void StopShoot()
     {
         m_ShootTimeLapse = 0;
@@ -119,6 +117,6 @@ public class FireWeapon : PickupableObject
 
     #region Properties
     public int CurrentProjectileAmmo { get { return m_ProjectilesClips[CurrentProjectileType]; } }
-    public Constants.Enumerations.Projectile.ProjectileType CurrentProjectileType { get; } = Constants.Enumerations.Projectile.ProjectileType.Iron;
+    public Constants.Enumerations.Projectile.ProjectileType CurrentProjectileType { get; private set; }
     #endregion
 }

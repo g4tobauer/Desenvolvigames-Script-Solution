@@ -14,6 +14,7 @@ public class InventorySystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ProjectilesBag[Constants.Enumerations.Projectile.ProjectileType.Iron] = 0;
         m_CharacterControllerScript = GetComponent<CharacterControllerScript>();
     }
     private void Update()
@@ -36,7 +37,7 @@ public class InventorySystem : MonoBehaviour
             fireWeapon.transform.SetParent(m_CharacterControllerScript.transform);
             fireWeapon.transform.localRotation = Quaternion.identity;
             fireWeapon.transform.localPosition = Vector3.zero;
-            fireWeapon.gameObject.SetActive(false);
+            fireWeapon.SpriteRenderer.enabled = false;
             FireWeaponBag.Add(fireWeapon);
         }
     }
@@ -59,7 +60,7 @@ public class InventorySystem : MonoBehaviour
     }
     private void StoreHealth(Health health)
     {
-        var overHealth = m_CharacterControllerScript.StatsSystem.AddHealth(health.AmountHealth);
+        var overHealth = m_CharacterControllerScript.StatsSystem.AddHealth(health.HealthAmount);
 
         overHealth += StoredHealth;
         if (overHealth < 50)
@@ -96,6 +97,14 @@ public class InventorySystem : MonoBehaviour
     private Dictionary<Constants.Enumerations.Projectile.ProjectileType, int> ProjectilesBag { get; } = new Dictionary<Constants.Enumerations.Projectile.ProjectileType, int>();
 
     public int StoredHealth { get; private set; }
-    public int StoredAmmo { get { return ProjectilesBag[m_CharacterControllerScript.WeaponSystem.CurrentFireWeapon.CurrentProjectileType]; } }
+    public int StoredAmmo
+    {
+        get
+        {
+            if (m_CharacterControllerScript.WeaponSystem.CurrentFireWeapon == null)
+                return 0;
+            return ProjectilesBag[m_CharacterControllerScript.WeaponSystem.CurrentFireWeapon.CurrentProjectileType];
+        }
+    }
     #endregion
 }

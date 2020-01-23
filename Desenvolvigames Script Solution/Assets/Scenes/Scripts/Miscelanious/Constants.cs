@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace Assets.Scenes.Miscelanious
+﻿namespace Assets.Scenes.Miscelanious
 {
     public static class Constants
     {
@@ -30,7 +23,13 @@ namespace Assets.Scenes.Miscelanious
                 public static readonly string Vertical = "Vertical";
             }
         }
-
+        public static class StatsSystem
+        {
+            public static class Health
+            {
+                public static readonly int MaxHeath = 100;
+            }
+        }
         public static class Enumerations
         {
             public static class FireWeapon
@@ -58,16 +57,6 @@ namespace Assets.Scenes.Miscelanious
                     Soul,
                     Ammo
                 }
-
-                public static class Amount
-                {
-                    public enum Size
-                    {
-                        Small,
-                        Medium,
-                        Large
-                    }
-                }
             }
         }
         public static class Resources
@@ -83,25 +72,16 @@ namespace Assets.Scenes.Miscelanious
                     public static readonly string IronProjectile = "IronProjectile";
                 }
             }
-            public static class Sprites
-            {
-                public static class Health
-                {                    
-                    public static readonly string HealthPath = "Sprites/Health/";                    
-                    public static readonly string HealthSmall = "HealthSmall";
-                    public static readonly string HealthMedium = "HealthMedium";
-                    public static readonly string HealthLarge = "HealthLarge";
-                }
-                public static class Weapons
-                {
-                    public static readonly string WeaponsPath = "Sprites/Weapons/";
-                    public static readonly string ShotGun = "ShotGun";
-                }
-            }
+            //public static class Sprites
+            //{
+            //    public static class Weapons
+            //    {
+            //        public static readonly string WeaponsPath = "Sprites/Weapons/";
+            //        public static readonly string ShotGun = "ShotGun";
+            //    }
+            //}
             //public static readonly string HealthPath = "Prefabs/Prototypes/Health";
             //public static readonly string SoulPath = "Prefabs/Prototypes/Soul";
         }
-
-
     }
 }
