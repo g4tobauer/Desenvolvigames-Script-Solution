@@ -20,7 +20,8 @@ using UnityEngine;
 public class CharacterControllerScript : MonoBehaviour, IControllable
 {
     #region Fields
-    //public FireWeapon m_FireWeapon;
+    public Instantiator Instantiator;
+
     private Vector2 m_Velocity;
     //Velocidade do character, manipulado pelo MovementScript e pelo JumpScript
     #endregion

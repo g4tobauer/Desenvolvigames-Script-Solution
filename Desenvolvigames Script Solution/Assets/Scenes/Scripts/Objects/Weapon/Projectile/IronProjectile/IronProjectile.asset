@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0e027212aeb93f47abcf0225c9eeca5, type: 3}
-  m_Name: ShotGun
+  m_Script: {fileID: 11500000, guid: c3cd6aa0eecc5c94ca7827a9e4d02e06, type: 3}
+  m_Name: IronProjectile
   m_EditorClassIdentifier: 
-  AutomaticTimeShoot: 0.1
-  SemiAutomaticTimeShoot: 2
-  Sprite: {fileID: 21300000, guid: 1bcfbc6b95a2af94aa21aeb5a22ad9f7, type: 3}
-  ShootingMode: 1
-  PickupableType: 0
-  ProjectileTypeDefault: 0
+  Damage: 3
+  Velocity: 20
+  Sprite: {fileID: 21300000, guid: db87746129cc599478e1ae8cecedefd7, type: 3}
+  ProjectileType: 0

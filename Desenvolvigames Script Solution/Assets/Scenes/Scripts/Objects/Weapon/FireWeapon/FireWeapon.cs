@@ -9,10 +9,11 @@ using UnityEngine;
 public class FireWeapon : PickupableObject
 {
     private readonly Dictionary<Constants.Enumerations.Projectile.ProjectileType, int> m_ProjectilesClips = new Dictionary<Constants.Enumerations.Projectile.ProjectileType, int>();
-    
+
     #region Fields
+    public Instantiator Instantiator;
+    public Transform SpawnProjectilePoint;
     public FireWeaponObject FireWeaponObject;
-    public Transform m_SpawnProjectilePoint;
 
     //m_IsShooting nem precisaria existir, mas acabei deixando eles
     private bool m_IsShooting;
@@ -28,7 +29,7 @@ public class FireWeapon : PickupableObject
         m_ProjectilesClips[CurrentProjectileType] = 0;
         PickupableType = FireWeaponObject.PickupableType;
         SpriteRenderer.sprite = FireWeaponObject.Sprite;
-        gameObject.layer = LayerMask.NameToLayer(Constants.Layers.Pickupable);
+        gameObject.layer = Converter.LayerMaskToInt(FireWeaponObject.LayerMask);
     }
     // Update is called once per frame
     void Update()
@@ -72,7 +73,7 @@ public class FireWeapon : PickupableObject
         {
             m_IsShooting = true;
             m_ShootTimeLapse = GetShootTime();
-            Instanciator.Instancia.InstantiateProjectile(m_SpawnProjectilePoint, CurrentProjectileType);
+            Instantiator.InstantiateObject(SpawnProjectilePoint, Instantiator.IronProjectile);
             m_ProjectilesClips[CurrentProjectileType] -= 1;
         }
     }
@@ -102,7 +103,7 @@ public class FireWeapon : PickupableObject
 
         if (projectilesBag.ContainsKey(CurrentProjectileType))
         {
-            while (m_ProjectilesClips[CurrentProjectileType] < 7)
+            while (m_ProjectilesClips[CurrentProjectileType] < FireWeaponObject.WeaponClipSize)
             {
                 if (projectilesBag[CurrentProjectileType] > 0)
                 {

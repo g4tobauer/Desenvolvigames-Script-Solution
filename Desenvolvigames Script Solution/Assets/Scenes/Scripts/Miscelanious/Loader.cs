@@ -19,7 +19,7 @@ public sealed class Loader
 
     private void LoadPrefabs()
     {
-        LoadedPrefab[Constants.Resources.Prefabs.Projectiles.IronProjectile] = Resources.Load<GameObject>(Constants.Resources.Prefabs.Projectiles.ProjectilesPath + Constants.Resources.Prefabs.Projectiles.IronProjectile);
+        LoadedPrefab[Constants.Path.ProjectilesPath.IronProjectile] = Resources.Load<GameObject>(Constants.Path.ProjectilesPath.IronProjectile);
     }
     public GameObject GetPrefab(string prefabName)
     {

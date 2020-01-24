@@ -59,29 +59,27 @@
                 }
             }
         }
-        public static class Resources
-        {            
-            public static readonly string IronProjectilePath = "Prefabs/Prototypes/Weapon/Projectiles/IronProjectile";
-            public static readonly string ChineloPath = "Prefabs/Prototypes/Chinelo";
 
-            public static class Prefabs
+        public static class Path
+        {
+            public static class ProjectilesPath
             {
-                public static class Projectiles
-                {
-                    public static readonly string ProjectilesPath = "Prefabs/Prototypes/Weapon/Projectiles/";
-                    public static readonly string IronProjectile = "IronProjectile";
-                }
+                public static readonly string IronProjectile = "Prefabs/Prototypes/Weapon/Projectiles/IronProjectile";
             }
-            //public static class Sprites
-            //{
-            //    public static class Weapons
-            //    {
-            //        public static readonly string WeaponsPath = "Sprites/Weapons/";
-            //        public static readonly string ShotGun = "ShotGun";
-            //    }
-            //}
-            //public static readonly string HealthPath = "Prefabs/Prototypes/Health";
-            //public static readonly string SoulPath = "Prefabs/Prototypes/Soul";
         }
+
+        //public static class Resources
+        //{            
+        //    public static readonly string ChineloPath = "Prefabs/Prototypes/Chinelo";
+
+        //    public static class Prefabs
+        //    {
+        //        public static class Projectiles
+        //        {
+        //            public static readonly string ProjectilesPath = "Prefabs/Prototypes/Weapon/Projectiles/";
+        //            public static readonly string IronProjectile = "IronProjectile";
+        //        }
+        //    }
+        //}
     }
 }

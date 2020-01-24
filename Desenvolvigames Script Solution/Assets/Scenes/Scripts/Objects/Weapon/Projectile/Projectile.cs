@@ -7,13 +7,18 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     private Rigidbody2D m_rigidbody2D;
-    private Constants.Enumerations.Projectile.ProjectileType CurrentProjectileType = Constants.Enumerations.Projectile.ProjectileType.Iron;
+    private Constants.Enumerations.Projectile.ProjectileType CurrentProjectileType;
+
+    public SpriteRenderer SpriteRenderer;
+    public ProjectileObject ProjectileObject;
 
     // Start is called before the first frame update
     void Start()
     {
         m_rigidbody2D = GetComponent<Rigidbody2D>();
-        m_rigidbody2D.velocity = transform.right * 20;
+        m_rigidbody2D.velocity = transform.right * ProjectileObject.Velocity;
+        CurrentProjectileType = ProjectileObject.ProjectileType;
+        SpriteRenderer.sprite = ProjectileObject.Sprite;
         Destroy(gameObject, 2.0f);
     }
 

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe17952b812c9d74d86c000220d35793, type: 3}
-  m_Name: Ammo
+  m_Name: IronAmmo
   m_EditorClassIdentifier: 
   AmmoAmount: 15
   Sprite: {fileID: 21300000, guid: aa57974480905bf499820ea43667c426, type: 3}
