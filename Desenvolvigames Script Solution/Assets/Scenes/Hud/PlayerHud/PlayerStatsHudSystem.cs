@@ -19,6 +19,6 @@ public class PlayerStatsHudSystem : MonoBehaviour
     void Update()
     {
         HudHealthText.text = HudSystem.HudHealth.ToString();
-        HudStoredAmmoText.text = HudSystem.HudStoredAmmo.ToString();
+        HudStoredAmmoText.text = HudSystem.HudCurrentWeaponAmmo + " / " + HudSystem.HudStoredAmmo.ToString();
     }
 }
