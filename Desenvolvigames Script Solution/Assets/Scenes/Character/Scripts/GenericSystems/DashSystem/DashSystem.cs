@@ -13,6 +13,7 @@ public class DashSystem : MonoBehaviour, IControllable
     private Vector2 m_DashVelocity;
     #endregion
 
+
     #region Unity Methods
     private void Start()
     {
@@ -28,7 +29,6 @@ public class DashSystem : MonoBehaviour, IControllable
         if (WithControl)
         {
             //Para fazer o dash precisamente, é necessário desabilitar a gravidade
-            CharacterControllerScript.Rigidbody2D.gravityScale = 0;
             CharacterControllerScript.Rigidbody2D.velocity = m_DashVelocity * 2;
         }
     }
@@ -45,12 +45,13 @@ public class DashSystem : MonoBehaviour, IControllable
             {
                 m_DashTime = 0;
                 //ao termino do dash, a gravidade é retornada
-                CharacterControllerScript.Rigidbody2D.gravityScale = 3;
                 CharacterControllerScript.TakeControl(this);
                 IsFinishedControl = true;
             }
         }
     }
+
+
     //Aplica o Dash de ataque
     public void DashAttack(IControllable controllable)
     {

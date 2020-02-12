@@ -8,8 +8,8 @@ public class Instantiator : MonoBehaviour
 { 
     public Projectile IronProjectile;
 
-    public void InstantiateObject(Transform transform, MonoBehaviour monoBehaviour)
+    public void InstantiateObject(Transform transform, GameObject gameObject)
     {
-        Instantiate(monoBehaviour.gameObject,transform.position, transform.rotation);
+        Instantiate(gameObject, transform.position, transform.rotation);
     }
 }

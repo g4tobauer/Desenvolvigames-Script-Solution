@@ -73,7 +73,7 @@ public class FireWeapon : PickupableObject
         {
             m_IsShooting = true;
             m_ShootTimeLapse = GetShootTime();
-            Instantiator.InstantiateObject(SpawnProjectilePoint, Instantiator.IronProjectile);
+            Instantiator.InstantiateObject(SpawnProjectilePoint, Instantiator.IronProjectile.gameObject);
             m_ProjectilesClips[CurrentProjectileType] -= 1;
         }
     }

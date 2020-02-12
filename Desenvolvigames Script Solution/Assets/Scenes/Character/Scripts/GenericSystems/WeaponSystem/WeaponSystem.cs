@@ -25,6 +25,10 @@ public class WeaponSystem : MonoBehaviour
                 CurrentFireWeapon.transform.Rotate(180, 0, 0);
             }
 
+            if (CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.R))
+            {
+                CharacterControllerScript.InventorySystem.ReloadCurrentWeapon();
+            }
             if (CurrentFireWeapon.FireWeaponObject.ShootingMode == Constants.Enumerations.Weapon.FireWeapon.ShootingMode.SEMIAUTOMATIC)
             {
                 if (CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.Mouse1))
@@ -38,10 +42,6 @@ public class WeaponSystem : MonoBehaviour
                 {
                     CurrentFireWeapon.Shoot();
                 }
-            }
-            if (CharacterControllerScript.InputSystem.GetKey(KeyCode.R))
-            {
-                CharacterControllerScript.InventorySystem.ReloadCurrentWeapon();
             }
         }
     }

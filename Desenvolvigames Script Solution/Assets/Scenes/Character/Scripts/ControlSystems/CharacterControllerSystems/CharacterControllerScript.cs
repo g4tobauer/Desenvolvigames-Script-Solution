@@ -1,4 +1,5 @@
 ﻿using Assets.Scenes.Character.Interfaces;
+using Assets.Scenes.Miscelanious;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,11 +27,16 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
     public WeaponSystem WeaponSystem;
     //Propriedade de acesso ao script InventorySystem
     public InventorySystem InventorySystem;
+    //Propriedade de acesso ao script AnimationSystem
+    public AnimationSystem AnimationSystem;
     //Propriedade de acesso ao script GroundCheckSystem
     public GroundCheckSystem GroundCheckSystem;
     //Velocidade do character, manipulado pelo MovementScript e pelo JumpScript
     private Vector2 m_Velocity;
 
+    private bool Mouse0Input;
+    private bool LeftControlInput;
+    private IEnumerator Coroutine;
     #endregion
 
     #region Unity Methods
@@ -45,12 +51,18 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
         //StatsSystem = GetComponent<StatsSystem>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
 
+        Rigidbody2D.gravityScale = Constants.Gameplay.GravityScale;
+
         //ChineleeMechanicsSystem = GetComponent<ChineleeMechanicsSystem>();
         //Instancias dos Scripts que serão todos acessados atravez da CharacterControllerScript
     }
     void Update()
     {
-        Inputs();
+        if (WithControl)
+        {
+            Inputs();
+            Rules();
+        }
         //Debugs();
     }
     void FixedUpdate()
@@ -63,22 +75,47 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
     #endregion
 
     #region Methods
+
     //Entrada de Dados do usuário
     private void Inputs()
     {
         //Da um microDash em direção IsFacingRight
+        Mouse0Input = false;
         if (InputSystem.GetKeyDown(KeyCode.Mouse0))
-            DashSystem.DashAttack(this);
+        {
+            Mouse0Input = true;
+        }
 
         //Da um Dash de esquiva na direção IsFacingRight
+        LeftControlInput = false;
         if (InputSystem.GetKeyDown(KeyCode.LeftControl))
-            DashSystem.DashDodge(this);
+        {
+            LeftControlInput = true;
+        }
 
         ////Pula em direção ao Chinelo
         //if (InputSystem.GetKeyDown(KeyCode.Mouse2))
         //    ChineleeMechanicsSystem.ChineloPower();
     }
-
+    private void Rules()
+    {
+        if (Mouse0Input)
+        {
+            Rigidbody2D.velocity = Vector2.zero;
+            AnimationSystem.SetAnimation("Attack");
+            Rigidbody2D.gravityScale = 0;
+            DashSystem.DashAttack(this);
+            GravityLapse(20);
+        }
+        if (LeftControlInput)
+        {
+            Rigidbody2D.gravityScale = 0;
+            DashSystem.DashDodge(this);
+            GravityLapse(20);
+        }
+        AnimationSystem.SetAnimation("Speed", Mathf.Abs(Rigidbody2D.velocity.x));
+        AnimationSystem.SetAnimation("IsGrounded", GroundCheckSystem.IsTouchingGround);
+    }
 
     public void JumpUpdate(float jumpForce)
     {
@@ -98,16 +135,34 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
                 IsFacingRight = false;
         }
     }
-    private void Debugs()
+
+    private void GravityLapse(int teste)
     {
-        Debug.Log(StatsSystem.Health.ToString());
+        if (Coroutine != null) StopCoroutine(Coroutine);
+        Coroutine = GravityLapseCoroutine(teste);
+        StartCoroutine(Coroutine);
     }
+
+    // every 2 seconds perform the print()
+    private IEnumerator GravityLapseCoroutine(int teste)
+    {
+        while (Rigidbody2D.gravityScale != Constants.Gameplay.GravityScale)
+        {
+            Rigidbody2D.gravityScale += (Time.deltaTime * teste);
+            if (Rigidbody2D.gravityScale >= Constants.Gameplay.GravityScale)
+                Rigidbody2D.gravityScale = Constants.Gameplay.GravityScale;
+
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+    }
+
     #endregion
-    
+
     #region Properties
     public bool IsFacingRight { get; private set; }
     //Propriedade de verificação se o character esta virado para direita
     public Rigidbody2D Rigidbody2D { get; private set; }
+
     //Propriedade de acesso ao componente Rigidbody2D
 
     //public ChineleeMechanicsSystem ChineleeMechanicsSystem { get; private set; }

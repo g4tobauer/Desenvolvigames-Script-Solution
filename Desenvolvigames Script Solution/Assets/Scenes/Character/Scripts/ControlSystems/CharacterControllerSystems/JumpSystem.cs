@@ -11,7 +11,7 @@ public class JumpSystem : MonoBehaviour
     private float m_JumpCount;
     private bool m_IsJumping;
     private float m_JumpStartPosition;
-    private CharacterControllerScript m_CharacterControllerScript;
+    private CharacterControllerScript CharacterControllerScript;
     #endregion
        
     #region Unity Methods
@@ -19,7 +19,7 @@ public class JumpSystem : MonoBehaviour
     void Start()
     {
         m_JumpCount = 2;
-        m_CharacterControllerScript = GetComponent<CharacterControllerScript>();
+        CharacterControllerScript = GetComponent<CharacterControllerScript>();
     }
 
     // Update is called once per frame
@@ -33,28 +33,32 @@ public class JumpSystem : MonoBehaviour
     #region Methods
     private void Inputs()
     {
-        if (m_CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.Space))
+        if (CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.Space))
+        {
             m_IsJumping = true;
-        if (m_CharacterControllerScript.InputSystem.GetKeyUp(KeyCode.Space))
+            if((m_JumpCount > 0)) CharacterControllerScript.AnimationSystem.SetAnimation("Jump");
+        }
+        if (CharacterControllerScript.InputSystem.GetKeyUp(KeyCode.Space))
             m_IsJumping = false;
-        //m_IsJumping = m_CharacterControllerScript.InputSystem.GetKey(KeyCode.Space);
+        //m_IsJumping = CharacterControllerScript.InputSystem.GetKey(KeyCode.Space);
     }
 
     private void JumpRule()
     {
-        float jumpForce = m_CharacterControllerScript.Rigidbody2D.velocity.y;
+        float jumpForce = CharacterControllerScript.Rigidbody2D.velocity.y;
         if(m_IsJumping)
         {
             if (m_JumpStartPosition == 0)
             {
                 --m_JumpCount;
-                m_JumpStartPosition = m_CharacterControllerScript.Rigidbody2D.position.y;
-                m_CharacterControllerScript.Rigidbody2D.velocity = new Vector2(m_CharacterControllerScript.Rigidbody2D.position.x, 0);
+                m_JumpStartPosition = CharacterControllerScript.Rigidbody2D.position.y;
+                CharacterControllerScript.Rigidbody2D.velocity = new Vector2(CharacterControllerScript.Rigidbody2D.position.x, 0);
             }
-            if (Mathf.Abs(m_CharacterControllerScript.Rigidbody2D.position.y - m_JumpStartPosition) < 1)
+            if (Mathf.Abs(CharacterControllerScript.Rigidbody2D.position.y - m_JumpStartPosition) < 1)
             {
                 //se ele puder continuar pulando, entao continua pulando
-                if (!(m_JumpCount < 0)) jumpForce = (m_jumpForce * Time.fixedDeltaTime);
+                if (!(m_JumpCount < 0))
+                    jumpForce = (m_jumpForce * Time.fixedDeltaTime);
             }
             else
             {
@@ -65,7 +69,7 @@ public class JumpSystem : MonoBehaviour
         else
         {
             m_JumpStartPosition = 0;
-            if (!m_CharacterControllerScript.GroundCheckSystem.IsTouchingGround)
+            if (!CharacterControllerScript.GroundCheckSystem.IsTouchingGround)
             {
                 //se nao tiver no chao e nao tiver mais pulando, nao pode pular mais
                 m_IsJumping = false;
@@ -76,7 +80,7 @@ public class JumpSystem : MonoBehaviour
                 m_JumpCount = 2;
             }
         }
-        m_CharacterControllerScript.JumpUpdate(jumpForce);
+        CharacterControllerScript.JumpUpdate(jumpForce);
     }
     #endregion
 }

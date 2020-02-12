@@ -2,6 +2,11 @@
 {
     public static class Constants
     {
+        public static class Gameplay
+        {
+            public static readonly float GravityScale = 5;
+        }
+
         public static class Layers
         {
             public static readonly string Ground = "Ground";
