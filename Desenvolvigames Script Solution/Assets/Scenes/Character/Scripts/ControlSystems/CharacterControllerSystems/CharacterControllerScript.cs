@@ -92,26 +92,24 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
         {
             LeftControlInput = true;
         }
-
-        ////Pula em direção ao Chinelo
-        //if (InputSystem.GetKeyDown(KeyCode.Mouse2))
-        //    ChineleeMechanicsSystem.ChineloPower();
     }
     private void Rules()
     {
+        var gravityLapse = 20;
+
         if (Mouse0Input)
         {
-            Rigidbody2D.velocity = Vector2.zero;
             AnimationSystem.SetAnimation("Attack");
             Rigidbody2D.gravityScale = 0;
             DashSystem.DashAttack(this);
-            GravityLapse(20);
+            GravityLapse(gravityLapse);
         }
         if (LeftControlInput)
         {
+            AnimationSystem.SetAnimation("Dash");
             Rigidbody2D.gravityScale = 0;
             DashSystem.DashDodge(this);
-            GravityLapse(20);
+            GravityLapse(gravityLapse);
         }
         AnimationSystem.SetAnimation("Speed", Mathf.Abs(Rigidbody2D.velocity.x));
         AnimationSystem.SetAnimation("IsGrounded", GroundCheckSystem.IsTouchingGround);
