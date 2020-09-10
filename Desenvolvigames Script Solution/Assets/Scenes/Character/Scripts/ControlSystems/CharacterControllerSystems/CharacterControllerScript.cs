@@ -21,6 +21,8 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
     public StatsSystem StatsSystem;
     //Propriedade de acesso ao script InputSystem
     public InputSystem InputSystem;
+    //Propriedade de acesso ao script CombatSystem
+    public CombatSystem CombatSystem;
     //Propriedade de acesso ao script PickupSystem
     public PickupSystem PickupSystem;
     //Propriedade de acesso ao script WeaponSystem
@@ -42,15 +44,12 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
     #region Unity Methods
     private void Start()
     {
-        IsFacingRight = true;
         //Inicia virado para direita
-
-        WithControl = true;
+        IsFacingRight = true;
         //Inicia com o controle sobre o character
-
+        WithControl = true;
         //StatsSystem = GetComponent<StatsSystem>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
-
         Rigidbody2D.gravityScale = Constants.Gameplay.GravityScale;
 
         //ChineleeMechanicsSystem = GetComponent<ChineleeMechanicsSystem>();
@@ -99,8 +98,9 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
 
         if (Mouse0Input)
         {
-            AnimationSystem.SetAnimation("Attack");
             Rigidbody2D.gravityScale = 0;
+            AnimationSystem.SetAnimation("Attack");
+            CombatSystem.Attack();
             DashSystem.DashAttack(this);
             GravityLapse(gravityLapse);
         }
@@ -113,6 +113,10 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
         }
         AnimationSystem.SetAnimation("Speed", Mathf.Abs(Rigidbody2D.velocity.x));
         AnimationSystem.SetAnimation("IsGrounded", GroundCheckSystem.IsTouchingGround);
+
+        //if(IsFacingRight) CombatSystem.transform.eulerAngles = new Vector3(0, 0, 0);
+        //else CombatSystem.transform.eulerAngles = new Vector3(0, 180, 0);
+
     }
 
     public void JumpUpdate(float jumpForce)
@@ -134,19 +138,18 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
         }
     }
 
-    private void GravityLapse(int teste)
+    private void GravityLapse(int gravityLapse)
     {
         if (Coroutine != null) StopCoroutine(Coroutine);
-        Coroutine = GravityLapseCoroutine(teste);
+        Coroutine = GravityLapseCoroutine(gravityLapse);
         StartCoroutine(Coroutine);
     }
 
-    // every 2 seconds perform the print()
-    private IEnumerator GravityLapseCoroutine(int teste)
+    private IEnumerator GravityLapseCoroutine(int gravityLapse)
     {
         while (Rigidbody2D.gravityScale != Constants.Gameplay.GravityScale)
         {
-            Rigidbody2D.gravityScale += (Time.deltaTime * teste);
+            Rigidbody2D.gravityScale += (Time.deltaTime * gravityLapse);
             if (Rigidbody2D.gravityScale >= Constants.Gameplay.GravityScale)
                 Rigidbody2D.gravityScale = Constants.Gameplay.GravityScale;
 

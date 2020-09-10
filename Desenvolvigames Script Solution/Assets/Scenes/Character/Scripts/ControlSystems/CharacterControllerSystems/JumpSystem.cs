@@ -52,13 +52,14 @@ public class JumpSystem : MonoBehaviour
             {
                 --m_JumpCount;
                 m_JumpStartPosition = CharacterControllerScript.Rigidbody2D.position.y;
-                CharacterControllerScript.Rigidbody2D.velocity = new Vector2(CharacterControllerScript.Rigidbody2D.position.x, 0);
             }
             if (Mathf.Abs(CharacterControllerScript.Rigidbody2D.position.y - m_JumpStartPosition) < 1)
             {
                 //se ele puder continuar pulando, entao continua pulando
                 if (!(m_JumpCount < 0))
+                {
                     jumpForce = (m_jumpForce * Time.fixedDeltaTime);
+                }
             }
             else
             {

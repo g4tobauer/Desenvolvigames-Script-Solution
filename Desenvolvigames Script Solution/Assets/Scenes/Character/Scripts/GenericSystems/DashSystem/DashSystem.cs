@@ -55,16 +55,16 @@ public class DashSystem : MonoBehaviour, IControllable
     //Aplica o Dash de ataque
     public void DashAttack(IControllable controllable)
     {
-        Dash(controllable, Constants.DashSystem.DashAttack);
+        Dash(controllable, Constants.DashSystem.DashAttack, .3f);
     }
     //Aplica o Dash de esquiva
     public void DashDodge(IControllable controllable)
     {
-        Dash(controllable, Constants.DashSystem.DashDodge);
+        Dash(controllable, Constants.DashSystem.DashDodge, .5f);
     }
 
     //Toma o Controle, adiciona a velocidade atual a velocidade de Dash, verifica qual o lado do dash e atribui a velocidade e o tempo do dash.
-    private void Dash(IControllable controllable, float dashSpeed)
+    private void Dash(IControllable controllable, float dashSpeed, float upDash)
     {
         TakeControl(controllable);
         if (WithControl)
@@ -72,9 +72,9 @@ public class DashSystem : MonoBehaviour, IControllable
             var dashVelocity = new Vector2();
             dashSpeed += (Mathf.Abs(CharacterControllerScript.Rigidbody2D.velocity.x) * .5f);
             if (CharacterControllerScript.IsFacingRight)
-                dashVelocity.Set(dashSpeed, 0);
+                dashVelocity.Set(dashSpeed, upDash);
             else
-                dashVelocity.Set(-dashSpeed, 0);
+                dashVelocity.Set(-dashSpeed, upDash);
             m_DashTime = Constants.DashSystem.DashTime;
             m_DashVelocity = dashVelocity;
         }
