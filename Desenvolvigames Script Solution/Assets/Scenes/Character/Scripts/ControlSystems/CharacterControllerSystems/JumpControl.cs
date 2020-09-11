@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using Assets.Scenes.Miscelanious;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterControllerScript))]
 
-public class JumpSystem : MonoBehaviour
+public class JumpControl : MonoBehaviour
 {
     #region Fields
     [SerializeField] float m_jumpForce = 200.0f;
@@ -33,12 +34,14 @@ public class JumpSystem : MonoBehaviour
     #region Methods
     private void Inputs()
     {
-        if (CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.Space))
+        if (CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.Space) ||
+        CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.Joystick1Button0))
         {
             m_IsJumping = true;
             if((m_JumpCount > 0)) CharacterControllerScript.AnimationSystem.SetAnimation("Jump");
         }
-        if (CharacterControllerScript.InputSystem.GetKeyUp(KeyCode.Space))
+        if (CharacterControllerScript.InputSystem.GetKeyUp(KeyCode.Space) ||
+            CharacterControllerScript.InputSystem.GetKeyUp(KeyCode.Joystick1Button0))
             m_IsJumping = false;
         //m_IsJumping = CharacterControllerScript.InputSystem.GetKey(KeyCode.Space);
     }

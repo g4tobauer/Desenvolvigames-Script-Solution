@@ -5,7 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(CharacterControllerScript))]
 
-public class MovementSystem : MonoBehaviour
+public class MovementControl : MonoBehaviour
 {
     #region Fields
     [SerializeField] float m_speed = 1.0f;

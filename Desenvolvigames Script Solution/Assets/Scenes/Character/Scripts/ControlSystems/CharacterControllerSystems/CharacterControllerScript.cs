@@ -7,7 +7,6 @@ using UnityEngine;
 //Unity Scripts
 [RequireComponent(typeof(Rigidbody2D))]
 
-
 public class CharacterControllerScript : MonoBehaviour, IControllable
 {
     #region Fields
@@ -36,24 +35,27 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
     //Velocidade do character, manipulado pelo MovementScript e pelo JumpScript
     private Vector2 m_Velocity;
 
-    private bool Mouse0Input;
-    private bool LeftControlInput;
+    private bool Attack;
+    private bool Dash;
+    private bool DashReseted;
     private IEnumerator Coroutine;
     #endregion
 
     #region Unity Methods
-    private void Start()
+    void Start()
     {
         //Inicia virado para direita
         IsFacingRight = true;
         //Inicia com o controle sobre o character
         WithControl = true;
+        
         //StatsSystem = GetComponent<StatsSystem>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
+
         Rigidbody2D.gravityScale = Constants.Gameplay.GravityScale;
 
-        //ChineleeMechanicsSystem = GetComponent<ChineleeMechanicsSystem>();
         //Instancias dos Scripts que serão todos acessados atravez da CharacterControllerScript
+        //ChineleeMechanicsSystem = GetComponent<ChineleeMechanicsSystem>();
     }
     void Update()
     {
@@ -79,24 +81,39 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
     private void Inputs()
     {
         //Da um microDash em direção IsFacingRight
-        Mouse0Input = false;
-        if (InputSystem.GetKeyDown(KeyCode.Mouse0))
+        Attack = false;
+        if (InputSystem.GetKeyDown(KeyCode.Mouse0) ||
+            InputSystem.GetKeyDown(KeyCode.Joystick1Button2))
         {
-            Mouse0Input = true;
+            Attack = true;
         }
 
+
         //Da um Dash de esquiva na direção IsFacingRight
-        LeftControlInput = false;
+        Dash = false;
         if (InputSystem.GetKeyDown(KeyCode.LeftControl))
         {
-            LeftControlInput = true;
+            Dash = true;
+        }
+        if (InputSystem.GetAxis("RightTrigger") > .5f)
+        {
+            if (DashReseted)
+            {
+                DashReseted = false;
+                Dash = true;
+            }
+        }
+        else
+        {
+            DashReseted = true;
         }
     }
+
     private void Rules()
     {
         var gravityLapse = 20;
 
-        if (Mouse0Input)
+        if (Attack)
         {
             Rigidbody2D.gravityScale = 0;
             AnimationSystem.SetAnimation("Attack");
@@ -104,10 +121,10 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
             DashSystem.DashAttack(this);
             GravityLapse(gravityLapse);
         }
-        if (LeftControlInput)
+        if (Dash)
         {
-            AnimationSystem.SetAnimation("Dash");
             Rigidbody2D.gravityScale = 0;
+            AnimationSystem.SetAnimation("Dash");
             DashSystem.DashDodge(this);
             GravityLapse(gravityLapse);
         }
@@ -160,17 +177,18 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
     #endregion
 
     #region Properties
-    public bool IsFacingRight { get; private set; }
     //Propriedade de verificação se o character esta virado para direita
+    public bool IsFacingRight { get; private set; }
+    //Propriedade de acesso ao componente Rigidbody2D
     public Rigidbody2D Rigidbody2D { get; private set; }
 
-    //Propriedade de acesso ao componente Rigidbody2D
 
-    //public ChineleeMechanicsSystem ChineleeMechanicsSystem { get; private set; }
     ////Propriedade de acesso ao script ChineleeMechanicsSystem
+    //public ChineleeMechanicsSystem ChineleeMechanicsSystem { get; private set; }
     #endregion
 
     #region IControllable
+    //Passa o controle para o script que requisitou o controle atravez do TakeControl(IControllable controllable)
     public bool PassControl()
     {
         if (WithControl)
@@ -179,7 +197,7 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
             return false;
         return true;
     }
-    //Passa o controle para o script que requisitou o controle atravez do TakeControl(IControllable controllable)
+    //Pega o controle do IControllable controllable passado no parametro
     public void TakeControl(IControllable controllable)
     {
         if (!WithControl)
@@ -190,10 +208,9 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
                 WithControl = controllable.PassControl();
         }
     }
-    //Pega o controle do IControllable controllable passado no parametro
-    public bool WithControl { get; private set; }
     //Propriedade de verificação se o script está com o controle
-    public bool IsFinishedControl { get; private set; }
+    public bool WithControl { get; private set; }
     //Propriedade de verificação se o script finalizou o controle
+    public bool IsFinishedControl { get; private set; }
     #endregion 
 }

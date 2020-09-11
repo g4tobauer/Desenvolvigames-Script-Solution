@@ -679,6 +679,11 @@ PrefabInstance:
       propertyPath: HudSystem
       value: 
       objectReference: {fileID: 1376112331}
+    - target: {fileID: 3722808194852694839, guid: 0ec922bb96163e54bb9df8d7d679f59b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3722808195437163978, guid: 0ec922bb96163e54bb9df8d7d679f59b,
         type: 3}
       propertyPath: m_Camera
@@ -793,6 +798,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hud
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722808195437163990, guid: 0ec922bb96163e54bb9df8d7d679f59b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ec922bb96163e54bb9df8d7d679f59b, type: 3}

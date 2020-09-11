@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scenes.Miscelanious;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,16 @@ public class InputSystem : MonoBehaviour
     public bool GetKeyUp(KeyCode keyCode)
     {
         return Input.GetKeyUp(keyCode);
+    }
+
+    public bool GetButtonDown(string buttonName)
+    {
+        return Input.GetButtonDown(buttonName);
+    }
+
+    public bool GetButtonUp(string buttonName)
+    {
+        return Input.GetButtonUp(buttonName);
     }
 
     public float GetAxis(string axisName)
