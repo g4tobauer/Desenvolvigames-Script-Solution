@@ -9,6 +9,8 @@ public class AnimationSystem : MonoBehaviour
 
     private Animator Animator;
     private SpriteRenderer SpriteRenderer;
+
+    private float prevSpeed;
     #endregion
 
     // Start is called before the first frame update
@@ -21,6 +23,16 @@ public class AnimationSystem : MonoBehaviour
     void Update()
     {
         SpriteRenderer.flipX = !CharacterControllerScript.IsFacingRight;
+    }
+
+    public void PauseAnimation()
+    {
+        if (Animator.speed != 0) prevSpeed = Animator.speed;
+        Animator.speed = 0;
+    }
+    public void ResumeAnimation()
+    {
+        Animator.speed = prevSpeed;
     }
 
     public void SetAnimation(string trigger)

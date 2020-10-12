@@ -46,7 +46,7 @@ public class DashSystem : MonoBehaviour, IControllable
                 m_DashTime = 0;
                 //ao termino do dash, a gravidade é retornada
                 CharacterControllerScript.TakeControl(this);
-                IsFinishedControl = true;
+                //IsFinishedControl = true;
             }
         }
     }
@@ -55,12 +55,12 @@ public class DashSystem : MonoBehaviour, IControllable
     //Aplica o Dash de ataque
     public void DashAttack(IControllable controllable)
     {
-        Dash(controllable, Constants.DashSystem.DashAttack, .3f);
+        Dash(controllable, Constants.DashSystem.Attack.DashAttackSpeed, Constants.DashSystem.Attack.UpDashAttack);
     }
     //Aplica o Dash de esquiva
     public void DashDodge(IControllable controllable)
     {
-        Dash(controllable, Constants.DashSystem.DashDodge, .5f);
+        Dash(controllable, Constants.DashSystem.Dodge.DashDodgeSpeed, Constants.DashSystem.Dodge.UpDashDodge);
     }
 
     //Toma o Controle, adiciona a velocidade atual a velocidade de Dash, verifica qual o lado do dash e atribui a velocidade e o tempo do dash.
@@ -90,7 +90,10 @@ public class DashSystem : MonoBehaviour, IControllable
     public bool PassControl()
     {
         if (WithControl)
+        {
             WithControl = false;
+            IsFinishedControl = true;//teste
+        }
         else
             return false;
         return true;

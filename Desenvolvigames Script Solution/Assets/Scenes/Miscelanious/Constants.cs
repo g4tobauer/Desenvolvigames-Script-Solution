@@ -4,7 +4,11 @@
     {
         public static class Gameplay
         {
-            public const float GravityScale = 5;
+            public const float ZeroGravityScale = 0;
+            public const float NormalGravityScale = 5;
+            public const float JumpStartPosition = 0;
+            public const float JumpHeight = 1;
+            public const float JumpMaxCount = 2;
         }
 
         public static class Layers
@@ -14,11 +18,36 @@
             public const string Targetable = "Targetable";
             public const string Pickupable = "Pickupable";
         }
+        public static class AnimationSystem
+        {
+            public static class Triggers
+            {
+                public const string Attack = "Attack";
+                public const string Dodge = "Dodge";
+                public const string Jump = "Jump";
+            }
+            public static class Booleans
+            {
+                public const string IsGrounded = "IsGrounded";
+            }
+            public static class Floats
+            {
+                public const string Speed = "Speed";
+            }
+        }
         public static class DashSystem
         {
             public const float DashTime = .1f;
-            public const float DashAttack = 2;
-            public const float DashDodge = 8;
+            public static class Attack
+            {
+                public const float UpDashAttack = .3f;
+                public const float DashAttackSpeed = 2;
+            }
+            public static class Dodge
+            {
+                public const float UpDashDodge = .5f;
+                public const float DashDodgeSpeed = 8;
+            }
         }
         public static class InputSystem
         {
@@ -26,6 +55,8 @@
             {
                 public const string Horizontal = "Horizontal";
                 public const string Vertical = "Vertical";
+                public const string RightTrigger = "RightTrigger";
+                public const float TriggerThreshold = .5f;
             }
         }
         public static class StatsSystem

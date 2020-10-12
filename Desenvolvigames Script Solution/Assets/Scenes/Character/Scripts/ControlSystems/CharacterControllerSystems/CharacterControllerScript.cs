@@ -36,8 +36,8 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
     private Vector2 m_Velocity;
 
     private bool Attack;
-    private bool Dash;
-    private bool DashReseted;
+    private bool Dodge;
+    private bool DodgeReseted;
     private IEnumerator Coroutine;
     #endregion
 
@@ -52,7 +52,7 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
         //StatsSystem = GetComponent<StatsSystem>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
 
-        Rigidbody2D.gravityScale = Constants.Gameplay.GravityScale;
+        Rigidbody2D.gravityScale = Constants.Gameplay.NormalGravityScale;
 
         //Instancias dos Scripts que serão todos acessados atravez da CharacterControllerScript
         //ChineleeMechanicsSystem = GetComponent<ChineleeMechanicsSystem>();
@@ -90,22 +90,22 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
 
 
         //Da um Dash de esquiva na direção IsFacingRight
-        Dash = false;
+        Dodge = false;
         if (InputSystem.GetKeyDown(KeyCode.LeftControl))
         {
-            Dash = true;
+            Dodge = true;
         }
-        if (InputSystem.GetAxis("RightTrigger") > .5f)
+        if (InputSystem.GetAxis(Constants.InputSystem.Axis.RightTrigger) > Constants.InputSystem.Axis.TriggerThreshold)
         {
-            if (DashReseted)
+            if (DodgeReseted)
             {
-                DashReseted = false;
-                Dash = true;
+                DodgeReseted = false;
+                Dodge = true;
             }
         }
         else
         {
-            DashReseted = true;
+            DodgeReseted = true;
         }
     }
 
@@ -115,25 +115,21 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
 
         if (Attack)
         {
-            Rigidbody2D.gravityScale = 0;
-            AnimationSystem.SetAnimation("Attack");
+            Rigidbody2D.gravityScale = Constants.Gameplay.ZeroGravityScale;
+            AnimationSystem.SetAnimation(Constants.AnimationSystem.Triggers.Attack);
             CombatSystem.Attack();
             DashSystem.DashAttack(this);
             GravityLapse(gravityLapse);
         }
-        if (Dash)
+        if (Dodge)
         {
-            Rigidbody2D.gravityScale = 0;
-            AnimationSystem.SetAnimation("Dash");
+            Rigidbody2D.gravityScale = Constants.Gameplay.ZeroGravityScale;
+            AnimationSystem.SetAnimation(Constants.AnimationSystem.Triggers.Dodge);
             DashSystem.DashDodge(this);
             GravityLapse(gravityLapse);
         }
-        AnimationSystem.SetAnimation("Speed", Mathf.Abs(Rigidbody2D.velocity.x));
-        AnimationSystem.SetAnimation("IsGrounded", GroundCheckSystem.IsTouchingGround);
-
-        //if(IsFacingRight) CombatSystem.transform.eulerAngles = new Vector3(0, 0, 0);
-        //else CombatSystem.transform.eulerAngles = new Vector3(0, 180, 0);
-
+        AnimationSystem.SetAnimation(Constants.AnimationSystem.Floats.Speed, Mathf.Abs(Rigidbody2D.velocity.x));
+        AnimationSystem.SetAnimation(Constants.AnimationSystem.Booleans.IsGrounded, GroundCheckSystem.IsTouchingGround);
     }
 
     public void JumpUpdate(float jumpForce)
@@ -164,11 +160,11 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
 
     private IEnumerator GravityLapseCoroutine(int gravityLapse)
     {
-        while (Rigidbody2D.gravityScale != Constants.Gameplay.GravityScale)
+        while (Rigidbody2D.gravityScale != Constants.Gameplay.NormalGravityScale)
         {
             Rigidbody2D.gravityScale += (Time.deltaTime * gravityLapse);
-            if (Rigidbody2D.gravityScale >= Constants.Gameplay.GravityScale)
-                Rigidbody2D.gravityScale = Constants.Gameplay.GravityScale;
+            if (Rigidbody2D.gravityScale >= Constants.Gameplay.NormalGravityScale)
+                Rigidbody2D.gravityScale = Constants.Gameplay.NormalGravityScale;
 
             yield return new WaitForSeconds(Time.deltaTime);
         }

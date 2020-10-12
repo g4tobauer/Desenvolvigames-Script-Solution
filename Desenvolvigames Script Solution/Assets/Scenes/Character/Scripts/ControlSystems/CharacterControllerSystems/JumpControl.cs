@@ -19,7 +19,7 @@ public class JumpControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_JumpCount = 2;
+        m_JumpCount = Constants.Gameplay.JumpMaxCount;
         CharacterControllerScript = GetComponent<CharacterControllerScript>();
     }
 
@@ -38,12 +38,11 @@ public class JumpControl : MonoBehaviour
         CharacterControllerScript.InputSystem.GetKeyDown(KeyCode.Joystick1Button0))
         {
             m_IsJumping = true;
-            if((m_JumpCount > 0)) CharacterControllerScript.AnimationSystem.SetAnimation("Jump");
+            if((m_JumpCount > 0)) CharacterControllerScript.AnimationSystem.SetAnimation(Constants.AnimationSystem.Triggers.Jump);
         }
         if (CharacterControllerScript.InputSystem.GetKeyUp(KeyCode.Space) ||
             CharacterControllerScript.InputSystem.GetKeyUp(KeyCode.Joystick1Button0))
             m_IsJumping = false;
-        //m_IsJumping = CharacterControllerScript.InputSystem.GetKey(KeyCode.Space);
     }
 
     private void JumpRule()
@@ -51,12 +50,13 @@ public class JumpControl : MonoBehaviour
         float jumpForce = CharacterControllerScript.Rigidbody2D.velocity.y;
         if(m_IsJumping)
         {
-            if (m_JumpStartPosition == 0)
+            if (m_JumpStartPosition == Constants.Gameplay.JumpStartPosition)
             {
+                if (!CharacterControllerScript.GroundCheckSystem.IsTouchingGround && m_JumpCount == Constants.Gameplay.JumpMaxCount) --m_JumpCount;
                 --m_JumpCount;
                 m_JumpStartPosition = CharacterControllerScript.Rigidbody2D.position.y;
             }
-            if (Mathf.Abs(CharacterControllerScript.Rigidbody2D.position.y - m_JumpStartPosition) < 1)
+            if (Mathf.Abs(CharacterControllerScript.Rigidbody2D.position.y - m_JumpStartPosition) < Constants.Gameplay.JumpHeight)
             {
                 //se ele puder continuar pulando, entao continua pulando
                 if (!(m_JumpCount < 0))
@@ -72,16 +72,16 @@ public class JumpControl : MonoBehaviour
         }
         else
         {
-            m_JumpStartPosition = 0;
-            if (!CharacterControllerScript.GroundCheckSystem.IsTouchingGround)
+            m_JumpStartPosition = Constants.Gameplay.JumpStartPosition;
+            if (CharacterControllerScript.GroundCheckSystem.IsTouchingGround)
             {
-                //se nao tiver no chao e nao tiver mais pulando, nao pode pular mais
-                m_IsJumping = false;
+                //se tiver no chao resetar o pulo
+                m_JumpCount = Constants.Gameplay.JumpMaxCount;
             }
             else
             {
-                //se tiver no chao resetar o pulo
-                m_JumpCount = 2;
+                //se nao tiver no chao e nao tiver mais pulando, nao pode pular mais
+                m_IsJumping = false;
             }
         }
         CharacterControllerScript.JumpUpdate(jumpForce);
