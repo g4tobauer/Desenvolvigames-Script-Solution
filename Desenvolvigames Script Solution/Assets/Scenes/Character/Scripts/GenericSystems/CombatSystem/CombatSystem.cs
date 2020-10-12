@@ -30,11 +30,11 @@ public class CombatSystem : MonoBehaviour
         {
             Debug.Log("BeginAttack");
             IsAttacking = true;
-            GravityLapse(3);
+            AttackLapse(25);
         }
     }
     
-    private void GravityLapse(float attackWait)
+    private void AttackLapse(float attackWait)
     {
         if (Coroutine != null) StopCoroutine(Coroutine);
         Coroutine = AttackLapseCoroutine(attackWait);
@@ -43,14 +43,9 @@ public class CombatSystem : MonoBehaviour
 
     private IEnumerator AttackLapseCoroutine(float attackWait)
     {
-        var loop = true;
-        while (loop)
-        {
-            loop = false;
-            yield return new WaitForSeconds(attackWait);
-        }
+        yield return new WaitForSeconds(Time.deltaTime * attackWait);
         Debug.Log("EndAttack");
         IsAttacking = false;
     }
-    private bool IsAttacking { get; set; }
+    public bool IsAttacking { get; private set; }
 }

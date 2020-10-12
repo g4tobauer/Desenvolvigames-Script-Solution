@@ -9,6 +9,7 @@ public class MovementControl : MonoBehaviour
 {
     #region Fields
     [SerializeField] float m_speed = 1.0f;
+
     private float m_InputAxis;
     private CharacterControllerScript m_CharacterControllerScript;
     #endregion

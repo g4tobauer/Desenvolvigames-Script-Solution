@@ -111,13 +111,13 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
 
     private void Rules()
     {
+        //Qnto menor, mais devagar é a volta pra gravidade normal
         var gravityLapse = 20;
-
-        if (Attack)
+        if (Attack && !CombatSystem.IsAttacking)
         {
+            CombatSystem.Attack();
             Rigidbody2D.gravityScale = Constants.Gameplay.ZeroGravityScale;
             AnimationSystem.SetAnimation(Constants.AnimationSystem.Triggers.Attack);
-            CombatSystem.Attack();
             DashSystem.DashAttack(this);
             GravityLapse(gravityLapse);
         }
