@@ -255,7 +255,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: CombatSystem
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1820633111325340708, guid: f4e4925de6aaf1c488f307794c00c2d9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f4e4925de6aaf1c488f307794c00c2d9, type: 3}
 --- !u!4 &213742759 stripped
 Transform:

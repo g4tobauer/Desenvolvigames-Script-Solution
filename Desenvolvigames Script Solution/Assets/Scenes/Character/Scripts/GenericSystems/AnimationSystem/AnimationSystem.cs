@@ -51,4 +51,17 @@ public class AnimationSystem : MonoBehaviour
     {
         Animator.SetFloat(name, value);
     }
+
+    #region Actions Events
+    public void Attack()
+    {
+        CharacterControllerScript.CombatSystem.Attack();
+        CharacterControllerScript.DashSystem.DashAttack(CharacterControllerScript);
+    }
+
+    public void Dodge()
+    {
+        CharacterControllerScript.DashSystem.DashDodge(CharacterControllerScript);
+    }
+    #endregion
 }

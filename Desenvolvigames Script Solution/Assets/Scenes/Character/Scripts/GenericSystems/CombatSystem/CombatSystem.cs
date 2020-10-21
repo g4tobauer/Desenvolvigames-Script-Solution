@@ -8,19 +8,21 @@ public class CombatSystem : MonoBehaviour
 {
     public CharacterControllerScript CharacterControllerScript;
 
-    private Collider2D RangeAttack;
     private IEnumerator Coroutine;
 
     // Start is called before the first frame update
     void Start()
     {
-        RangeAttack = GetComponent<Collider2D>();
-        RangeAttack.isTrigger = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        var teste = Physics2D.OverlapBoxAll(transform.position + new Vector3(CharacterControllerScript.IsFacingRight ? 1.2f : -1.2f, 0), new Vector3(1, .5f),0);
+        foreach(var t in teste)
+        {
+            Debug.LogError(t.name);
+        }
 
     }
 
@@ -33,7 +35,7 @@ public class CombatSystem : MonoBehaviour
             AttackLapse(25);
         }
     }
-    
+
     private void AttackLapse(float attackWait)
     {
         if (Coroutine != null) StopCoroutine(Coroutine);
@@ -48,4 +50,10 @@ public class CombatSystem : MonoBehaviour
         IsAttacking = false;
     }
     public bool IsAttacking { get; private set; }
+
+    void OnDrawGizmos()
+    {        
+        //if (IsAttacking)
+            Gizmos.DrawWireCube(transform.position + new Vector3(CharacterControllerScript.IsFacingRight ? 1.2f : -1.2f, 0), new Vector3(1, .5f));
+    }
 }

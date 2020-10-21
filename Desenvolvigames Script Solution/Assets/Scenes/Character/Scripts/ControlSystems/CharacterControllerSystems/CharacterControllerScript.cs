@@ -38,7 +38,6 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
     private bool Attack;
     private bool Dodge;
     private bool DodgeReseted;
-    private IEnumerator Coroutine;
     #endregion
 
     #region Unity Methods
@@ -111,22 +110,13 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
 
     private void Rules()
     {
-        //Qnto menor, mais devagar é a volta pra gravidade normal
-        var gravityLapse = 20;
         if (Attack && !CombatSystem.IsAttacking)
         {
-            CombatSystem.Attack();
-            Rigidbody2D.gravityScale = Constants.Gameplay.ZeroGravityScale;
             AnimationSystem.SetAnimation(Constants.AnimationSystem.Triggers.Attack);
-            DashSystem.DashAttack(this);
-            GravityLapse(gravityLapse);
         }
         if (Dodge)
         {
-            Rigidbody2D.gravityScale = Constants.Gameplay.ZeroGravityScale;
             AnimationSystem.SetAnimation(Constants.AnimationSystem.Triggers.Dodge);
-            DashSystem.DashDodge(this);
-            GravityLapse(gravityLapse);
         }
         AnimationSystem.SetAnimation(Constants.AnimationSystem.Floats.Speed, Mathf.Abs(Rigidbody2D.velocity.x));
         AnimationSystem.SetAnimation(Constants.AnimationSystem.Booleans.IsGrounded, GroundCheckSystem.IsTouchingGround);
@@ -148,25 +138,6 @@ public class CharacterControllerScript : MonoBehaviour, IControllable
                 IsFacingRight = true;
             if (moveSpeed < 0)
                 IsFacingRight = false;
-        }
-    }
-
-    private void GravityLapse(int gravityLapse)
-    {
-        if (Coroutine != null) StopCoroutine(Coroutine);
-        Coroutine = GravityLapseCoroutine(gravityLapse);
-        StartCoroutine(Coroutine);
-    }
-
-    private IEnumerator GravityLapseCoroutine(int gravityLapse)
-    {
-        while (Rigidbody2D.gravityScale != Constants.Gameplay.NormalGravityScale)
-        {
-            Rigidbody2D.gravityScale += (Time.deltaTime * gravityLapse);
-            if (Rigidbody2D.gravityScale >= Constants.Gameplay.NormalGravityScale)
-                Rigidbody2D.gravityScale = Constants.Gameplay.NormalGravityScale;
-
-            yield return new WaitForSeconds(Time.deltaTime);
         }
     }
 

@@ -11,8 +11,8 @@ public class DashSystem : MonoBehaviour, IControllable
 
     private float m_DashTime;
     private Vector2 m_DashVelocity;
+    private IEnumerator Coroutine;
     #endregion
-
 
     #region Unity Methods
     private void Start()
@@ -51,7 +51,6 @@ public class DashSystem : MonoBehaviour, IControllable
         }
     }
 
-
     //Aplica o Dash de ataque
     public void DashAttack(IControllable controllable)
     {
@@ -69,6 +68,7 @@ public class DashSystem : MonoBehaviour, IControllable
         TakeControl(controllable);
         if (WithControl)
         {
+            CharacterControllerScript.Rigidbody2D.gravityScale = Constants.Gameplay.ZeroGravityScale;
             var dashVelocity = new Vector2();
             dashSpeed += (Mathf.Abs(CharacterControllerScript.Rigidbody2D.velocity.x) * .5f);
             if (CharacterControllerScript.IsFacingRight)
@@ -77,6 +77,27 @@ public class DashSystem : MonoBehaviour, IControllable
                 dashVelocity.Set(-dashSpeed, upDash);
             m_DashTime = Constants.DashSystem.DashTime;
             m_DashVelocity = dashVelocity;
+            var gravityLapse = 10;
+            GravityLapse(gravityLapse);
+        }
+    }
+
+    private void GravityLapse(int gravityLapse)
+    {
+        if (Coroutine != null) StopCoroutine(Coroutine);
+        Coroutine = GravityLapseCoroutine(gravityLapse);
+        StartCoroutine(Coroutine);
+    }
+
+    private IEnumerator GravityLapseCoroutine(int gravityLapse)
+    {
+        while (CharacterControllerScript.Rigidbody2D.gravityScale != Constants.Gameplay.NormalGravityScale)
+        {
+            CharacterControllerScript.Rigidbody2D.gravityScale += (Time.deltaTime * gravityLapse);
+            if (CharacterControllerScript.Rigidbody2D.gravityScale >= Constants.Gameplay.NormalGravityScale)
+                CharacterControllerScript.Rigidbody2D.gravityScale = Constants.Gameplay.NormalGravityScale;
+
+            yield return new WaitForSeconds(Time.deltaTime);
         }
     }
 
